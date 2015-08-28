@@ -80,18 +80,4 @@ export default class TodoItem extends React.Component {
 	handleToggle = () => {
 		this.props.todo.toggle();
 	}
-
-	/**
-	 * Safely manipulate the DOM after updating the state when invoking
-	 * `this.props.onEdit()` in the `handleEdit` method above.
-	 * For more info refer to notes at https://facebook.github.io/react/docs/component-api.html#setstate
-	 * and https://facebook.github.io/react/docs/component-specs.html#updating-componentdidupdate
-	 */
-	componentDidUpdate(prevProps) {
-		if (!prevProps.editing && this.props.editing) {
-			var node = React.findDOMNode(this.refs.editField);
-			node.focus();
-			node.setSelectionRange(node.value.length, node.value.length);
-		}
-	}
 }
