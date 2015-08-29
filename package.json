@@ -1,14 +1,14 @@
 {
-  "name": "mobservable-todomvc",
+  "name": "mobservable-react-todomvc",
   "version": "1.0.0",
-  "description": "TodoMVC reference implementation based on React TodoMVC and react-mobservable-boilerplate",
+  "description": "TodoMVC reference implementation based on React TodoMVC and mobservable-react-boilerplate",
   "scripts": {
     "start": "node server.js",
     "lint": "eslint src"
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/mweststrate/mobservable-todomvc.git"
+    "url": "https://github.com/mweststrate/mobservable-react-todomvc.git"
   },
   "keywords": [
     "mobservable",
@@ -36,6 +36,7 @@
     "director": "^1.2.8",
     "mobservable": "^0.6.2",
     "mobservable-react": "^0.1.1",
+    "mobservable-react-devtools": "^0.1.0",
     "react": "^0.13.3",
     "todomvc-app-css": "^2.0.1",
     "todomvc-common": "^1.0.2"

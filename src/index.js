@@ -5,9 +5,9 @@ import TodoApp from './components/todoApp.js';
 import React from 'react';
 
 // Enable the dev tools:
-// import 'mobservable-devtools';
+import 'mobservable-react-devtools';
 
-var todoModel = new TodoModel('react-mobservable-todos');
+var todoModel = new TodoModel('mobservable-react-todomvc');
 var viewModel = new ViewModel();
 
 React.render(
