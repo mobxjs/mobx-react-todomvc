@@ -1,4 +1,4 @@
-import React from 'react/addons';
+import React from 'react';
 import {reactiveComponent} from 'mobservable-react';
 
 const ESCAPE_KEY = 27;
@@ -14,10 +14,10 @@ export default class TodoItem extends React.Component {
 	render() {
 		const {viewModel, todo} = this.props;
 		return (
-			<li className={React.addons.classSet({
-				completed: todo.completed,
-				editing: todo === viewModel.todoBeingEdited
-			})}>
+			<li className={[
+				todo.completed ? "completed": "",
+				todo === viewModel.todoBeingEdited ? "editing" : ""
+			].join(" ")}>
 				<div className="view">
 					<input
 						className="toggle"

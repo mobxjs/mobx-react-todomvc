@@ -1,64 +1,47 @@
-import React from 'react/addons';
+import React from 'react';
 import {reactiveComponent} from 'mobservable-react';
-import * as Utils from '../utils';
+import {pluralize} from '../utils';
 import * as ViewModel from '../stores/viewModel';
 
 @reactiveComponent
 export default class TodoFooter extends React.Component {
 	render() {
 		const todoModel = this.props.todoModel;
-		const todoFilter = this.props.viewModel.todoFilter;
-
 		if (!todoModel.activeTodoCount && !todoModel.completedCount)
 			return null;
 
-		const activeTodoWord = Utils.pluralize(todoModel.activeTodoCount, 'item');
-		let clearButton = null;
+		const activeTodoWord = pluralize(todoModel.activeTodoCount, 'item');
 
-		if (todoModel.completedCount > 0) {
-			clearButton = (
-				<button
-					className="clear-completed"
-					onClick={this.clearCompleted}>
-					Clear completed
-				</button>
-			);
-		}
-
-		const cx = React.addons.classSet;
 		return (
 			<footer className="footer">
 				<span className="todo-count">
 					<strong>{todoModel.activeTodoCount}</strong> {activeTodoWord} left
 				</span>
 				<ul className="filters">
-					<li>
-						<a
-							href="#/"
-							className={cx({selected: todoFilter === ViewModel.ALL_TODOS})}>
-								All
-						</a>
-					</li>
-					{' '}
-					<li>
-						<a
-							href="#/active"
-							className={cx({selected: todoFilter === ViewModel.ACTIVE_TODOS})}>
-								Active
-						</a>
-					</li>
-					{' '}
-					<li>
-						<a
-							href="#/completed"
-							className={cx({selected: todoFilter === ViewModel.COMPLETED_TODOS})}>
-								Completed
-						</a>
-					</li>
+						{this.renderFilterLink(ViewModel.ALL_TODOS, "", "All")}
+						{this.renderFilterLink(ViewModel.ACTIVE_TODOS, "active", "Active")}
+						{this.renderFilterLink(ViewModel.COMPLETED_TODOS, "completed", "Completed")}
 				</ul>
-				{clearButton}
+				{ todoModel.completedCount === 0
+					? null
+					: 	<button
+							className="clear-completed"
+							onClick={this.clearCompleted}>
+							Clear completed
+						</button>
+				}
 			</footer>
 		);
+	}
+
+	renderFilterLink(filterName, url, caption) {
+		return (<li>
+			<a href={"#/" + url}
+				className={filterName ===  this.props.viewModel.todoFilter ? "selected" : ""}>
+				{caption}
+			</a>
+			{' '}
+		</li>)
 	}
 
 	clearCompleted = () => {
