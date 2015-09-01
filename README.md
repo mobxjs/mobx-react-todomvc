@@ -1,6 +1,6 @@
 # React + MOBservable TodoMVC Example
 
-This repository provides a reference implementation of the [TodoMVC]() application written using [Mobservable](https://mweststrate.github.io/mobservable), [React](https://facebook.github.io/react) JSX and ES6.
+This repository provides a reference implementation of the [TodoMVC](http://todomvc.com) application written using [Mobservable](https://mweststrate.github.io/mobservable), [React](https://facebook.github.io/react) JSX and ES6.
 
 ## Running the example
 
@@ -9,6 +9,8 @@ npm install
 npm start
 open http://localhost:3000
 ```
+
+![TodoMVC](devtools.gif)
 
 ## Changing the example
 
