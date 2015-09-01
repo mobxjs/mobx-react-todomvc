@@ -48,3 +48,8 @@ export default class TodoFooter extends React.Component {
 		this.props.todoModel.clearCompleted();
 	}
 }
+
+TodoFooter.propTypes = {
+	viewModel: React.PropTypes.object.isRequired,
+	todoModel: React.PropTypes.object.isRequired
+}

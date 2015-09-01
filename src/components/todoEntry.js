@@ -30,3 +30,7 @@ export default class TodoEntry extends React.Component {
 		}
 	}
 }
+
+TodoEntry.propTypes = {
+	todoModel: React.PropTypes.object.isRequired
+}

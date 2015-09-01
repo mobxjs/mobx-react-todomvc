@@ -47,3 +47,9 @@ export default class TodoOverview extends React.Component {
 		this.props.todoModel.toggleAll(checked);
 	}
 }
+
+
+TodoOverview.propTypes = {
+	viewModel: React.PropTypes.object.isRequired,
+	todoModel: React.PropTypes.object.isRequired
+}

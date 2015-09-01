@@ -81,3 +81,8 @@ export default class TodoItem extends React.Component {
 		this.props.todo.toggle();
 	}
 }
+
+TodoItem.propTypes = {
+	todo: React.PropTypes.object.isRequired,
+	viewModel: React.PropTypes.object.isRequired
+}

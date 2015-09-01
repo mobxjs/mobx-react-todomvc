@@ -33,3 +33,8 @@ export default class TodoApp extends React.Component {
 		router.init('/');
 	}
 }
+
+TodoApp.propTypes = {
+	viewModel: React.PropTypes.object.isRequired,
+	todoModel: React.PropTypes.object.isRequired
+}
