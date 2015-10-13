@@ -1,10 +1,10 @@
 import React from 'react';
-import {reactiveComponent} from 'mobservable-react';
+import {observer} from 'mobservable-react';
 
 const ESCAPE_KEY = 27;
 const ENTER_KEY = 13;
 
-@reactiveComponent
+@observer
 export default class TodoItem extends React.Component {
 	constructor(props, context) {
 		super(props, context);

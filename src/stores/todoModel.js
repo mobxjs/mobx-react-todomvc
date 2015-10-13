@@ -1,9 +1,9 @@
-import {extendReactive, sideEffect} from 'mobservable';
+import {observable, autorun} from 'mobservable';
 import * as Utils from '../utils';
 
 export class TodoModel {
 	constructor(key) {
-		extendReactive(this, {
+		observable(this, {
 			key,
 			todos: [],
 			activeTodoCount: () =>
@@ -26,7 +26,7 @@ export class TodoModel {
 	}
 
 	subscribeLocalStorageToModel(model) {
-		sideEffect(() =>
+		autorun(() =>
 			Utils.storeDataToLocalStore(this.key, this.todos.map(todo => todo.toJson()))
 		);
 	}
@@ -51,7 +51,7 @@ export class TodoModel {
 export class Todo {
 	constructor(store, id, title, completed) {
 		this.store = store;
-		extendReactive(this, { id, title, completed });
+		observable(this, { id, title, completed });
 	}
 
 	toggle() {

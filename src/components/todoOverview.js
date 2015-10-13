@@ -1,10 +1,10 @@
 import React from 'react';
-import {reactiveComponent} from 'mobservable-react';
+import {observer} from 'mobservable-react';
 import * as ViewModel from '../stores/viewModel';
 
 import TodoItem from './todoItem';
 
-@reactiveComponent
+@observer
 export default class TodoOverview extends React.Component {
 	render() {
 		const {todoModel, viewModel} = this.props;

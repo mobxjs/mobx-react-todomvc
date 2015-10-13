@@ -1,9 +1,9 @@
 import React from 'react';
-import {reactiveComponent} from 'mobservable-react';
+import {observer} from 'mobservable-react';
 import {pluralize} from '../utils';
 import * as ViewModel from '../stores/viewModel';
 
-@reactiveComponent
+@observer
 export default class TodoFooter extends React.Component {
 	render() {
 		const todoModel = this.props.todoModel;

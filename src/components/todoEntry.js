@@ -1,9 +1,9 @@
 import React from 'react';
-import {reactiveComponent} from 'mobservable-react';
+import {observer} from 'mobservable-react';
 
 const ENTER_KEY = 13;
 
-@reactiveComponent
+@observer
 export default class TodoEntry extends React.Component {
 	render() {
 		return (<input
