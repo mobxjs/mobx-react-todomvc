@@ -1,9 +1,9 @@
-import {observable, autorun} from 'mobservable';
+import {extendObservable, autorun} from 'mobservable';
 import * as Utils from '../utils';
 
 export class TodoModel {
 	constructor(key) {
-		observable(this, {
+		extendObservable(this, {
 			key,
 			todos: [],
 			activeTodoCount: () =>
@@ -51,7 +51,7 @@ export class TodoModel {
 export class Todo {
 	constructor(store, id, title, completed) {
 		this.store = store;
-		observable(this, { id, title, completed });
+		extendObservable(this, { id, title, completed });
 	}
 
 	toggle() {
