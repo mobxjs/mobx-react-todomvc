@@ -35,8 +35,8 @@
   "dependencies": {
     "director": "^1.2.8",
     "mobservable": "^1.0.0",
-    "mobservable-react": "^1.0.0",
-    "mobservable-react-devtools": "^1.0.0",
+    "mobservable-react": "^2.0.0",
+    "mobservable-react-devtools": "^2.0.1",
     "react": "^0.14.0",
     "react-dom": "^0.14.0",
     "todomvc-app-css": "^2.0.1",
