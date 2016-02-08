@@ -28,9 +28,9 @@ export default class TodoEntry extends React.Component {
 			this.props.todoModel.addTodo(val);
 			React.findDOMNode(this.refs.newField).value = '';
 		}
-	}
+	};
 }
 
 TodoEntry.propTypes = {
 	todoModel: React.PropTypes.object.isRequired
-}
+};

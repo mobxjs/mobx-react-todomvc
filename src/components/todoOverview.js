@@ -45,7 +45,7 @@ export default class TodoOverview extends React.Component {
 	toggleAll = (event) => {
 		var checked = event.target.checked;
 		this.props.todoModel.toggleAll(checked);
-	}
+	};
 }
 
 
