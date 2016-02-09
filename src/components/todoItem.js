@@ -51,18 +51,18 @@ export default class TodoItem extends React.Component {
 			this.handleDestroy();
 		}
 		this.props.viewModel.todoBeingEdited = null;
-	}
+	};
 
 	handleDestroy = () => {
 		this.props.todo.destroy();
 		this.props.viewModel.todoBeingEdited = null;
-	}
+	};
 
 	handleEdit = () => {
 		const todo = this.props.todo;
 		this.props.viewModel.todoBeingEdited = todo;
 		this.setState({editText: todo.title});
-	}
+	};
 
 	handleKeyDown = (event) => {
 		if (event.which === ESCAPE_KEY) {
@@ -71,18 +71,18 @@ export default class TodoItem extends React.Component {
 		} else if (event.which === ENTER_KEY) {
 			this.handleSubmit(event);
 		}
-	}
+	};
 
 	handleChange = (event) => {
 		this.setState({editText: event.target.value});
-	}
+	};
 
 	handleToggle = () => {
 		this.props.todo.toggle();
-	}
+	};
 }
 
 TodoItem.propTypes = {
 	todo: React.PropTypes.object.isRequired,
 	viewModel: React.PropTypes.object.isRequired
-}
+};

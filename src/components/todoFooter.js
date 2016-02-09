@@ -46,7 +46,7 @@ export default class TodoFooter extends React.Component {
 
 	clearCompleted = () => {
 		this.props.todoModel.clearCompleted();
-	}
+	};
 }
 
 TodoFooter.propTypes = {

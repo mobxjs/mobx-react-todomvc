@@ -7,12 +7,15 @@ import TodoOverview from './todoOverview';
 import TodoFooter from './todoFooter';
 import * as ViewModel from '../stores/viewModel';
 
+import DevTool from '../mrd/index';
+
 @observer
 export default class TodoApp extends React.Component {
 	render() {
 		const {todoModel, viewModel} = this.props;
 		return (
 			<div>
+				<DevTool />
 				<header className="header">
 					<h1>todos</h1>
 					<TodoEntry todoModel={todoModel} />
