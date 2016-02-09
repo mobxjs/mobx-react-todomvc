@@ -7,7 +7,7 @@ import TodoOverview from './todoOverview';
 import TodoFooter from './todoFooter';
 import * as ViewModel from '../stores/viewModel';
 
-import DevTool from '../mrd/index';
+import DevTool from 'mobservable-react-devtools';
 
 @observer
 export default class TodoApp extends React.Component {
