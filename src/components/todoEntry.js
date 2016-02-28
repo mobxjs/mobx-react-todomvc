@@ -1,5 +1,5 @@
 import React from 'react';
-import {observer} from 'mobservable-react';
+import {observer} from 'mobx-react';
 
 const ENTER_KEY = 13;
 

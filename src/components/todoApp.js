@@ -1,5 +1,5 @@
 import React from 'react';
-import {observer} from 'mobservable-react';
+import {observer} from 'mobx-react';
 import {Router} from 'director';
 
 import TodoEntry from './todoEntry';
@@ -7,7 +7,7 @@ import TodoOverview from './todoOverview';
 import TodoFooter from './todoFooter';
 import * as ViewModel from '../stores/viewModel';
 
-import DevTool from 'mobservable-react-devtools';
+import DevTool from 'mobx-react-devtools';
 
 @observer
 export default class TodoApp extends React.Component {

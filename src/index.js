@@ -5,7 +5,7 @@ import TodoApp from './components/todoApp.js';
 import React from 'react';
 import ReactDOM from 'react-dom';
 
-var todoModel = new TodoModel('mobservable-react-todomvc');
+var todoModel = new TodoModel('mobx-react-todomvc');
 var viewModel = new ViewModel();
 
 ReactDOM.render(

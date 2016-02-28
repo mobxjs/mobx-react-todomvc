@@ -1,22 +1,26 @@
-import {extendObservable, autorun} from 'mobservable';
+import {observable, computed, autorun} from 'mobx';
 import * as Utils from '../utils';
 
 export class TodoModel {
+	key;
+	@observable todos = [];
+	
 	constructor(key) {
-		extendObservable(this, {
-			key,
-			todos: [],
-			activeTodoCount: () =>
-				this.todos.reduce(
-					(sum, todo) => sum + (todo.completed ? 0 : 1),
-					0
-				)
-			,
-			completedCount: () => this.todos.length - this.activeTodoCount
-		});
+		this.key = key;
 
 		this.readFromLocalStorage();
 		this.subscribeLocalStorageToModel();
+	}
+
+	@computed get activeTodoCount() {
+		return this.todos.reduce(
+			(sum, todo) => sum + (todo.completed ? 0 : 1),
+			0
+		)
+	}
+
+	@computed get completedCount() {
+		return this.todos.length - this.activeTodoCount;
 	}
 
 	readFromLocalStorage(model) {
@@ -49,9 +53,16 @@ export class TodoModel {
 }
 
 export class Todo {
+	store;
+	id;
+	@observable title;
+	@observable completed;
+
 	constructor(store, id, title, completed) {
 		this.store = store;
-		extendObservable(this, { id, title, completed });
+		this.id = id;
+		this.title = title;
+		this.completed = completed;
 	}
 
 	toggle() {
