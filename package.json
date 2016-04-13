@@ -45,7 +45,6 @@
   },
   "dependencies": {
     "classnames": "^2.2.3",
-    "director": "^1.2.8",
     "mobx": "^2.0.0",
     "mobx-react": "^3.0.0",
     "mobx-react-devtools": "^4.0.0",
