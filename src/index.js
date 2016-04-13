@@ -20,3 +20,5 @@ ReactDOM.render(
 	/>,
 	document.getElementById('todoapp')
 );
+
+stateNavigator.start();

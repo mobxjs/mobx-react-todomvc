@@ -34,7 +34,6 @@ export default class TodoApp extends React.Component {
 		stateNavigator.states.todo.navigated = function(data) {
 			viewModel.todoFilter = data.filter;
 		}
-		stateNavigator.start();
 	}
 }
 
