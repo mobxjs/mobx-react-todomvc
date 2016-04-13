@@ -27,11 +27,13 @@
   "devDependencies": {
     "babel": "^6.5.1",
     "babel-core": "^6.5.1",
+    "babel-helper-builder-binary-assignment-operator-visitor": "^6.6.5",
     "babel-loader": "^6.2.2",
     "babel-plugin-transform-decorators-legacy": "^1.3.4",
     "babel-preset-es2015": "^6.5.0",
     "babel-preset-react": "^6.5.0",
     "babel-preset-stage-1": "^6.5.0",
+    "babel-traverse": "^6.7.6",
     "css-loader": "^0.23.1",
     "eslint-plugin-react": "^3.16.1",
     "file-loader": "^0.8.5",
