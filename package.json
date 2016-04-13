@@ -48,6 +48,8 @@
     "mobx": "^2.0.0",
     "mobx-react": "^3.0.0",
     "mobx-react-devtools": "^4.0.0",
+    "navigation": "^2.0.0",
+    "navigation-react": "^2.0.0",
     "react": "^0.14.6",
     "react-addons-css-transition-group": "^0.14.7",
     "react-dom": "^0.14.0",
