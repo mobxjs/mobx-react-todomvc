@@ -1,18 +1,16 @@
 import React from 'react';
 import {observer} from 'mobx-react';
-import {Router} from 'director';
 
 import TodoEntry from './todoEntry';
 import TodoOverview from './todoOverview';
 import TodoFooter from './todoFooter';
-import * as ViewModel from '../stores/viewModel';
 
 import DevTool from 'mobx-react-devtools';
 
 @observer
 export default class TodoApp extends React.Component {
 	render() {
-		const {todoModel, viewModel} = this.props;
+		const {todoModel, viewModel, stateNavigator} = this.props;
 		return (
 			<div>
 				<DevTool />
@@ -21,19 +19,21 @@ export default class TodoApp extends React.Component {
 					<TodoEntry todoModel={todoModel} />
 				</header>
 				<TodoOverview todoModel={todoModel} viewModel={viewModel} />
-				<TodoFooter todoModel={todoModel} viewModel={viewModel} />
+				<TodoFooter
+					todoModel={todoModel}
+					viewModel={viewModel}
+					stateNavigator={stateNavigator}
+				/>
 			</div>
 		);
 	}
 
 	componentDidMount() {
 		var viewModel = this.props.viewModel;
-		var router = Router({
-			'/': function() { viewModel.todoFilter = ViewModel.ALL_TODOS; },
-			'/active': function() { viewModel.todoFilter = ViewModel.ACTIVE_TODOS; },
-			'/completed': function() { viewModel.todoFilter = ViewModel.COMPLETED_TODOS; }
-		});
-		router.init('/');
+		var stateNavigator = this.props.stateNavigator;
+		stateNavigator.states.todo.navigated = function(data) {
+			viewModel.todoFilter = data.filter;
+		}
 	}
 }
 

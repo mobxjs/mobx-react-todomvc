@@ -1,12 +1,13 @@
 import React from 'react';
 import {observer} from 'mobx-react';
 import {pluralize} from '../utils';
+import {RefreshLink} from 'navigation-react';
 import * as ViewModel from '../stores/viewModel';
 
 @observer
 export default class TodoFooter extends React.Component {
 	render() {
-		const todoModel = this.props.todoModel;
+		const {todoModel, stateNavigator} = this.props;
 		if (!todoModel.activeTodoCount && !todoModel.completedCount)
 			return null;
 
@@ -18,9 +19,30 @@ export default class TodoFooter extends React.Component {
 					<strong>{todoModel.activeTodoCount}</strong> {activeTodoWord} left
 				</span>
 				<ul className="filters">
-						{this.renderFilterLink(ViewModel.ALL_TODOS, "", "All")}
-						{this.renderFilterLink(ViewModel.ACTIVE_TODOS, "active", "Active")}
-						{this.renderFilterLink(ViewModel.COMPLETED_TODOS, "completed", "Completed")}
+					<li>
+						<RefreshLink
+							navigationData={{filter: ViewModel.ALL_TODOS}}
+							stateNavigator={stateNavigator}
+							activeCssClass="selected">
+							All
+						</RefreshLink>
+					</li>
+					<li>
+						<RefreshLink
+							navigationData={{filter: ViewModel.ACTIVE_TODOS}}
+							stateNavigator={stateNavigator}
+							activeCssClass="selected">
+							Active
+						</RefreshLink>
+					</li>
+					<li>
+						<RefreshLink
+							navigationData={{filter: ViewModel.COMPLETED_TODOS}}
+							stateNavigator={stateNavigator}
+							activeCssClass="selected">
+							Completed
+						</RefreshLink>
+					</li>
 				</ul>
 				{ todoModel.completedCount === 0
 					? null
@@ -32,16 +54,6 @@ export default class TodoFooter extends React.Component {
 				}
 			</footer>
 		);
-	}
-
-	renderFilterLink(filterName, url, caption) {
-		return (<li>
-			<a href={"#/" + url}
-				className={filterName ===  this.props.viewModel.todoFilter ? "selected" : ""}>
-				{caption}
-			</a>
-			{' '}
-		</li>)
 	}
 
 	clearCompleted = () => {
