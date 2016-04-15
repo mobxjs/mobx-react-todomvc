@@ -1,28 +1,27 @@
 import React from 'react';
 import {observer} from 'mobx-react';
-import * as ViewModel from '../stores/viewModel';
+import { todoStore, viewStore } from '../stores';
+import { ACTIVE_TODOS, COMPLETED_TODOS } from '../constants';
 
 import TodoItem from './todoItem';
 
 @observer
 export default class TodoOverview extends React.Component {
 	render() {
-		const {todoModel, viewModel} = this.props;
-		if (todoModel.todos.length === 0)
+		if (todoStore.todos.length === 0)
 			return null;
 		return <section className="main">
-			 <input
+			<input
 				className="toggle-all"
 				type="checkbox"
 				onChange={this.toggleAll}
-				checked={todoModel.activeTodoCount === 0}
+				checked={todoStore.activeTodoCount === 0}
 			/>
 			<ul className="todo-list">
 				{this.getVisibleTodos().map(todo =>
 					(<TodoItem
 						key={todo.id}
 						todo={todo}
-						viewModel={viewModel}
 					/>)
 				)}
 			</ul>
@@ -30,11 +29,11 @@ export default class TodoOverview extends React.Component {
 	}
 
 	getVisibleTodos() {
-		return this.props.todoModel.todos.filter(todo => {
-			switch (this.props.viewModel.todoFilter) {
-				case ViewModel.ACTIVE_TODOS:
+		return todoStore.todos.filter(todo => {
+			switch (viewStore.todoFilter) {
+				case ACTIVE_TODOS:
 					return !todo.completed;
-				case ViewModel.COMPLETED_TODOS:
+				case COMPLETED_TODOS:
 					return todo.completed;
 				default:
 					return true;
@@ -44,12 +43,6 @@ export default class TodoOverview extends React.Component {
 
 	toggleAll = (event) => {
 		var checked = event.target.checked;
-		this.props.todoModel.toggleAll(checked);
+		todoStore.toggleAll(checked);
 	};
-}
-
-
-TodoOverview.propTypes = {
-	viewModel: React.PropTypes.object.isRequired,
-	todoModel: React.PropTypes.object.isRequired
 }

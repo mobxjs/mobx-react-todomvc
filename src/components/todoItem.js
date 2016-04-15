@@ -1,5 +1,6 @@
 import React from 'react';
 import {observer} from 'mobx-react';
+import { viewStore } from '../stores';
 
 const ESCAPE_KEY = 27;
 const ENTER_KEY = 13;
@@ -12,11 +13,11 @@ export default class TodoItem extends React.Component {
 	}
 
 	render() {
-		const {viewModel, todo} = this.props;
+		const todo = this.props.todo;
 		return (
 			<li className={[
 				todo.completed ? "completed": "",
-				todo === viewModel.todoBeingEdited ? "editing" : ""
+				todo === viewStore.todoBeingEdited ? "editing" : ""
 			].join(" ")}>
 				<div className="view">
 					<input
@@ -50,24 +51,24 @@ export default class TodoItem extends React.Component {
 		} else {
 			this.handleDestroy();
 		}
-		this.props.viewModel.todoBeingEdited = null;
+		viewStore.todoBeingEdited = null;
 	};
 
 	handleDestroy = () => {
 		this.props.todo.destroy();
-		this.props.viewModel.todoBeingEdited = null;
+		viewStore.todoBeingEdited = null;
 	};
 
 	handleEdit = () => {
 		const todo = this.props.todo;
-		this.props.viewModel.todoBeingEdited = todo;
+		viewStore.todoBeingEdited = todo;
 		this.setState({editText: todo.title});
 	};
 
 	handleKeyDown = (event) => {
 		if (event.which === ESCAPE_KEY) {
 			this.setState({editText: this.props.todo.title});
-			this.props.viewModel.todoBeingEdited = null;
+			viewStore.todoBeingEdited = null;
 		} else if (event.which === ENTER_KEY) {
 			this.handleSubmit(event);
 		}
@@ -83,6 +84,5 @@ export default class TodoItem extends React.Component {
 }
 
 TodoItem.propTypes = {
-	todo: React.PropTypes.object.isRequired,
-	viewModel: React.PropTypes.object.isRequired
+	todo: React.PropTypes.object.isRequired
 };

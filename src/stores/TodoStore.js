@@ -1,10 +1,11 @@
 import {observable, computed, autorun} from 'mobx';
+import TodoModel from '../models/TodoModel'
 import * as Utils from '../utils';
 
-export class TodoModel {
+export default class TodoStore {
 	key;
 	@observable todos = [];
-	
+
 	constructor(key) {
 		this.key = key;
 
@@ -25,7 +26,7 @@ export class TodoModel {
 
 	readFromLocalStorage(model) {
 		this.todos = Utils.getDataFromLocalStore(this.key).map(
-			data => Todo.fromJson(this, data)
+			data => TodoModel.fromJson(this, data)
 		);
 	}
 
@@ -36,7 +37,7 @@ export class TodoModel {
 	}
 
 	addTodo (title) {
-		this.todos.push(new Todo(this, Utils.uuid(), title, false));
+		this.todos.push(new TodoModel(this, Utils.uuid(), title, false));
 	}
 
 	toggleAll (checked) {
@@ -49,43 +50,5 @@ export class TodoModel {
 		this.todos = this.todos.filter(
 			todo => !todo.completed
 		);
-	}
-}
-
-export class Todo {
-	store;
-	id;
-	@observable title;
-	@observable completed;
-
-	constructor(store, id, title, completed) {
-		this.store = store;
-		this.id = id;
-		this.title = title;
-		this.completed = completed;
-	}
-
-	toggle() {
-		this.completed = !this.completed;
-	}
-
-	destroy() {
-		this.store.todos.remove(this);
-	}
-
-	setTitle(title) {
-		this.title = title;
-	}
-
-	toJson() {
-		return {
-			id: this.id,
-			title: this.title,
-			completed: this.completed
-		};
-	}
-
-	static fromJson(store, json) {
-		return new Todo(store, json.id, json.title, json.completed);
 	}
 }
