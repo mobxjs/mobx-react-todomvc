@@ -5,39 +5,34 @@ import {Router} from 'director';
 import TodoEntry from './todoEntry';
 import TodoOverview from './todoOverview';
 import TodoFooter from './todoFooter';
-import * as ViewModel from '../stores/viewModel';
 
 import DevTool from 'mobx-react-devtools';
+
+import { viewStore } from '../stores';
+import { ALL_TODOS, ACTIVE_TODOS, COMPLETED_TODOS } from '../constants';
 
 @observer
 export default class TodoApp extends React.Component {
 	render() {
-		const {todoModel, viewModel} = this.props;
 		return (
 			<div>
 				<DevTool />
 				<header className="header">
 					<h1>todos</h1>
-					<TodoEntry todoModel={todoModel} />
+					<TodoEntry />
 				</header>
-				<TodoOverview todoModel={todoModel} viewModel={viewModel} />
-				<TodoFooter todoModel={todoModel} viewModel={viewModel} />
+				<TodoOverview />
+				<TodoFooter />
 			</div>
 		);
 	}
 
 	componentDidMount() {
-		var viewModel = this.props.viewModel;
 		var router = Router({
-			'/': function() { viewModel.todoFilter = ViewModel.ALL_TODOS; },
-			'/active': function() { viewModel.todoFilter = ViewModel.ACTIVE_TODOS; },
-			'/completed': function() { viewModel.todoFilter = ViewModel.COMPLETED_TODOS; }
+			'/': function() { viewStore.todoFilter = ALL_TODOS; },
+			'/active': function() { viewStore.todoFilter = ACTIVE_TODOS; },
+			'/completed': function() { viewStore.todoFilter = COMPLETED_TODOS; }
 		});
 		router.init('/');
 	}
-}
-
-TodoApp.propTypes = {
-	viewModel: React.PropTypes.object.isRequired,
-	todoModel: React.PropTypes.object.isRequired
 }
