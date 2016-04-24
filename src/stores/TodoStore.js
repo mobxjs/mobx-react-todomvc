@@ -2,16 +2,9 @@ import {observable, computed, autorun} from 'mobx';
 import TodoModel from '../models/TodoModel'
 import * as Utils from '../utils';
 
+
 export default class TodoStore {
-	key;
 	@observable todos = [];
-
-	constructor(key) {
-		this.key = key;
-
-		this.readFromLocalStorage();
-		this.subscribeLocalStorageToModel();
-	}
 
 	@computed get activeTodoCount() {
 		return this.todos.reduce(
@@ -24,16 +17,19 @@ export default class TodoStore {
 		return this.todos.length - this.activeTodoCount;
 	}
 
-	readFromLocalStorage(model) {
-		this.todos = Utils.getDataFromLocalStore(this.key).map(
-			data => TodoModel.fromJson(this, data)
-		);
-	}
-
-	subscribeLocalStorageToModel(model) {
-		autorun(() =>
-			Utils.storeDataToLocalStore(this.key, this.todos.map(todo => todo.toJson()))
-		);
+	subscribeServerToStore(model) {
+		autorun(() => {
+			const todos = this.toJS();
+			if (this.subscribedServerToModel !== true) {
+				this.subscribedServerToModel = true;
+				return;
+			}
+			fetch('/api/todos', {
+				method: 'post',
+				body: JSON.stringify({ todos }),
+				headers: new Headers({ 'Content-Type': 'application/json' })
+			})
+		});
 	}
 
 	addTodo (title) {
@@ -50,5 +46,15 @@ export default class TodoStore {
 		this.todos = this.todos.filter(
 			todo => !todo.completed
 		);
+	}
+
+	toJS() {
+		return this.todos.map(todo => todo.toJS());
+	}
+
+	static fromJS(array) {
+		const todoStore = new TodoStore();
+		todoStore.todos = array.map(item => TodoModel.fromJS(todoStore, item));
+		return todoStore;
 	}
 }

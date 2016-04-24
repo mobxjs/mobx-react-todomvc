@@ -1,6 +1,5 @@
 import React from 'react';
 import {observer} from 'mobx-react';
-import { todoStore, viewStore } from '../stores';
 import { ACTIVE_TODOS, COMPLETED_TODOS } from '../constants';
 
 import TodoItem from './todoItem';
@@ -8,6 +7,7 @@ import TodoItem from './todoItem';
 @observer
 export default class TodoOverview extends React.Component {
 	render() {
+		const {todoStore, viewStore} = this.props;
 		if (todoStore.todos.length === 0)
 			return null;
 		return <section className="main">
@@ -22,6 +22,7 @@ export default class TodoOverview extends React.Component {
 					(<TodoItem
 						key={todo.id}
 						todo={todo}
+						viewStore={viewStore}
 					/>)
 				)}
 			</ul>
@@ -29,8 +30,8 @@ export default class TodoOverview extends React.Component {
 	}
 
 	getVisibleTodos() {
-		return todoStore.todos.filter(todo => {
-			switch (viewStore.todoFilter) {
+		return this.props.todoStore.todos.filter(todo => {
+			switch (this.props.viewStore.todoFilter) {
 				case ACTIVE_TODOS:
 					return !todo.completed;
 				case COMPLETED_TODOS:
@@ -43,6 +44,12 @@ export default class TodoOverview extends React.Component {
 
 	toggleAll = (event) => {
 		var checked = event.target.checked;
-		todoStore.toggleAll(checked);
+		this.props.todoStore.toggleAll(checked);
 	};
+}
+
+
+TodoOverview.propTypes = {
+	viewStore: React.PropTypes.object.isRequired,
+	todoStore: React.PropTypes.object.isRequired
 }

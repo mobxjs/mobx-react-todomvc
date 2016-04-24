@@ -25,7 +25,7 @@ export default class TodoModel {
 		this.title = title;
 	}
 
-	toJson() {
+	toJS() {
 		return {
 			id: this.id,
 			title: this.title,
@@ -33,7 +33,7 @@ export default class TodoModel {
 		};
 	}
 
-	static fromJson(store, json) {
-		return new TodoModel(store, json.id, json.title, json.completed);
+	static fromJS(store, object) {
+		return new TodoModel(store, object.id, object.title, object.completed);
 	}
 }
