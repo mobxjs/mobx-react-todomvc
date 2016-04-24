@@ -25,21 +25,10 @@ module.exports = {
     extensions: ['', '.js', '.jsx']
   },
   module: {
-    loaders: [
-      {
-        test: /\.jsx?$/,
-        loaders: ['babel'],
-        exclude: /(node_modules)/,
-      },
-      {
-        test: /\.css$/,
-        exclude: /(node_modules)/,
-        loader: 'style!css'
-      }, {
-        test: /\.svg$/,
-        exclude: /(node_modules)/,
-        loader: 'url-loader'
-      }
-    ]
+    loaders: [{
+      test: /\.jsx?$/,
+      loaders: ['babel'],
+      exclude: /(node_modules)/,
+    }]
   }
 };

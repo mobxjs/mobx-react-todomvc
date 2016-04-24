@@ -1,7 +1,6 @@
-var fs = require('fs');
-var express = require('express');
-var bodyParser = require('body-parser');
-var path = require('path');
+import express from 'express';
+import bodyParser from 'body-parser';
+import path from 'path';
 
 import { renderToString } from 'react-dom/server'
 
@@ -9,50 +8,20 @@ import TodoStore from '../src/stores/TodoStore';
 import ViewStore from '../src/stores/ViewStore';
 import TodoApp from '../src/components/todoApp.js';
 import React from 'react';
-import ReactDOM from 'react-dom';
 
-
-var app = express();
+const app = express();
 app.use('/node_modules', express.static(path.join(__dirname, '../node_modules')))
 
-// initialize webpack HMR
-var webpack = require('webpack');
-var webpackDevMiddleware = require('webpack-dev-middleware');
-var webpackHotMiddleware = require('webpack-hot-middleware');
-var config = require('../webpack.config');
-var compiler = webpack(config);
+const webpack = require('webpack');
+const webpackDevMiddleware = require('webpack-dev-middleware');
+const webpackHotMiddleware = require('webpack-hot-middleware');
+const config = require('../webpack.config');
+const compiler = webpack(config);
 app.use(webpackDevMiddleware(compiler, { noInfo: true, publicPath: config.output.publicPath }));
 app.use(webpackHotMiddleware(compiler));
 
-
-let todos = [];
-
-app.use(bodyParser.json());
-
-app.get('/', function(req, res) {
-	var todoStore = TodoStore.fromJS(todos);
-	var viewStore = new ViewStore();
-
-	const initView = renderToString((
-		<TodoApp todoStore={todoStore} viewStore={viewStore} userAgent={req.headers['user-agent']} />
-	));
-
-	let page = renderFullPage(initView);
-
-	res.status(200).send(page);
-});
-
-app.post('/api/todos', function(req, res) {
-	if (Array.isArray(req.body.todos)) {
-		todos = req.body.todos;
-		res.status(201).send(JSON.stringify({ success: true }));
-	} else {
-		res.status(200).send(JSON.stringify({ success: false, error: "expected `todos` to be array" }));
-	}
-});
-
-function renderFullPage(html) {
-	let initialState = { todos };
+const renderFullPage = html => {
+	const initialState = { todos };
 	return `
 	<!doctype html>
 	<html lang="utf-8">
@@ -75,7 +44,34 @@ function renderFullPage(html) {
 		</body>
 	</html>
 	`
-}
+};
+
+let todos = []; // Todos are stored here
+
+app.use(bodyParser.json());
+
+app.get('/', function(req, res) {
+	const todoStore = TodoStore.fromJS(todos);
+	const viewStore = new ViewStore();
+
+	const initView = renderToString((
+		<TodoApp todoStore={todoStore} viewStore={viewStore} userAgent={req.headers['user-agent']} />
+	));
+
+	const page = renderFullPage(initView);
+
+	res.status(200).send(page);
+});
+
+app.post('/api/todos', function(req, res) {
+	todos = req.body.todos;
+	if (Array.isArray(todos)) {
+		console.log(`Updated todos (${todos.length})`);
+		res.status(201).send(JSON.stringify({ success: true }));
+	} else {
+		res.status(200).send(JSON.stringify({ success: false, error: "expected `todos` to be array" }));
+	}
+});
 
 // example of handling 404 pages
 app.get('*', function(req, res) {
@@ -90,7 +86,7 @@ app.use((err, req, res, next) => {
 });
 
 process.on('uncaughtException', evt => {
-	console.log( 'uncaughtException: ', evt );
+	console.log('uncaughtException: ', evt);
 });
 
 app.listen(3000, function(){
