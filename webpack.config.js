@@ -4,9 +4,8 @@ var webpack = require('webpack');
 module.exports = {
   devtool: 'eval',
   entry: [
-    'webpack-dev-server/client?http://localhost:3000',
-    'webpack/hot/only-dev-server',
-    './src/index'
+    'webpack-hot-middleware/client',
+    './src/client'
   ],
   output: {
     path: path.join(__dirname, 'dist'),
@@ -15,7 +14,12 @@ module.exports = {
   },
   plugins: [
     new webpack.HotModuleReplacementPlugin(),
-    new webpack.NoErrorsPlugin()
+    new webpack.NoErrorsPlugin(),
+    new webpack.DefinePlugin({
+      'process.env': { NODE_ENV: JSON.stringify(process.env.NODE_ENV) },
+      __CLIENT__: JSON.stringify(true),
+      __SERVER__: JSON.stringify(false),
+    }),
   ],
   resolve: {
     extensions: ['', '.js', '.jsx']
