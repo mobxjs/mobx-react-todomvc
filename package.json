@@ -50,7 +50,7 @@
     "express": "^4.13.4",
     "mobx": "^2.0.0",
     "mobx-react": "^3.0.0",
-    "mobx-react-devtools": "^4.0.3",
+    "mobx-react-devtools": "^4.0.5",
     "react": "^0.14.6",
     "react-dom": "^0.14.0",
     "todomvc-app-css": "^2.0.1",
