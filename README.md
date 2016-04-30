@@ -10,6 +10,8 @@ npm start
 open http://localhost:3000
 ```
 
+The example requires node 4.0 or higher
+
 ![TodoMVC](devtools.gif)
 
 ## Changing the example
