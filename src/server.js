@@ -55,7 +55,7 @@ app.get('/', function(req, res) {
 	const viewStore = new ViewStore();
 
 	const initView = renderToString((
-		<TodoApp todoStore={todoStore} viewStore={viewStore} userAgent={req.headers['user-agent']} />
+		<TodoApp todoStore={todoStore} viewStore={viewStore} />
 	));
 
 	const page = renderFullPage(initView);
