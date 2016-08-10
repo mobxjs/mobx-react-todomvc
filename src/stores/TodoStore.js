@@ -17,7 +17,7 @@ export default class TodoStore {
 		return this.todos.length - this.activeTodoCount;
 	}
 
-	subscribeServerToStore(model) {
+	subscribeServerToStore() {
 		autorun(() => {
 			const todos = this.toJS();
 			if (this.subscribedServerToModel !== true) {
