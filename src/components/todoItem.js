@@ -1,5 +1,6 @@
 import React from 'react';
 import {observer} from 'mobx-react';
+import {computed} from 'mobx';
 
 const ESCAPE_KEY = 27;
 const ENTER_KEY = 13;
@@ -16,7 +17,7 @@ export default class TodoItem extends React.Component {
 		return (
 			<li className={[
 				todo.completed ? "completed": "",
-				todo === viewStore.todoBeingEdited ? "editing" : ""
+				computed(() => todo === viewStore.todoBeingEdited ? "editing" : "").get()
 			].join(" ")}>
 				<div className="view">
 					<input
