@@ -1,4 +1,4 @@
-import {observable, computed, autorun} from 'mobx';
+import {observable, computed, reaction} from 'mobx';
 import TodoModel from '../models/TodoModel'
 import * as Utils from '../utils';
 
@@ -18,18 +18,21 @@ export default class TodoStore {
 	}
 
 	subscribeServerToStore() {
-		autorun(() => {
-			const todos = this.toJS();
-			if (this.subscribedServerToModel !== true) {
-				this.subscribedServerToModel = true;
-				return;
-			}
-			fetch('/api/todos', {
+		reaction(
+			() => this.toJS(),
+			todos => fetch('/api/todos', {
 				method: 'post',
 				body: JSON.stringify({ todos }),
 				headers: new Headers({ 'Content-Type': 'application/json' })
 			})
-		});
+		);
+	}
+
+	subscribeLocalstorageToStore() {
+		reaction(
+			() => this.toJS(),
+			todos => localStorage.setItem('mobx-react-todomvc-todos', todos)
+		);
 	}
 
 	addTodo (title) {
