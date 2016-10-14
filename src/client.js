@@ -16,3 +16,14 @@ ReactDOM.render(
 	<TodoApp todoStore={todoStore} viewStore={viewStore}/>,
 	document.getElementById('todoapp')
 );
+
+if (module.hot) {
+  module.hot.accept('./components/todoApp', () => {
+    var NewTodoApp = require('./components/todoApp').default;
+    ReactDOM.render(
+      <NewTodoApp todoStore={todoStore} viewStore={viewStore}/>,
+      document.getElementById('todoapp')
+    );
+  });
+}
+
