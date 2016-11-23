@@ -1,14 +1,23 @@
 import React from 'react';
 import {observer} from 'mobx-react';
+import {observable, expr} from 'mobx';
 
 const ESCAPE_KEY = 27;
 const ENTER_KEY = 13;
+
+
+class State {
+	@observable editText = '';
+	constructor(editText){
+		this.editText = editText;
+	}
+}
 
 @observer
 export default class TodoItem extends React.Component {
 	constructor(props, context) {
 		super(props, context);
-		this.state = {editText: props.todo.title};
+		this.state = new State(props.todo.title);
 	}
 
 	render() {
@@ -16,7 +25,7 @@ export default class TodoItem extends React.Component {
 		return (
 			<li className={[
 				todo.completed ? "completed": "",
-				todo === viewStore.todoBeingEdited ? "editing" : ""
+				expr(() => todo === viewStore.todoBeingEdited ? "editing" : "")
 			].join(" ")}>
 				<div className="view">
 					<input
@@ -46,7 +55,7 @@ export default class TodoItem extends React.Component {
 		const val = this.state.editText.trim();
 		if (val) {
 			this.props.todo.setTitle(val);
-			this.setState({editText: val});
+			this.state.editText = val;
 		} else {
 			this.handleDestroy();
 		}
@@ -61,12 +70,12 @@ export default class TodoItem extends React.Component {
 	handleEdit = () => {
 		const todo = this.props.todo;
 		this.props.viewStore.todoBeingEdited = todo;
-		this.setState({editText: todo.title});
+		this.state.editText = todo.title;
 	};
 
 	handleKeyDown = (event) => {
 		if (event.which === ESCAPE_KEY) {
-			this.setState({editText: this.props.todo.title});
+			this.state.editText = this.props.todo.title;
 			this.props.viewStore.todoBeingEdited = null;
 		} else if (event.which === ENTER_KEY) {
 			this.handleSubmit(event);
@@ -74,7 +83,7 @@ export default class TodoItem extends React.Component {
 	};
 
 	handleChange = (event) => {
-		this.setState({editText: event.target.value});
+		this.state.editText = event.target.value;
 	};
 
 	handleToggle = () => {
