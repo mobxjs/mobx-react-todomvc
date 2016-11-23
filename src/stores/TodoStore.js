@@ -31,7 +31,7 @@ export default class TodoStore {
 	subscribeLocalstorageToStore() {
 		reaction(
 			() => this.toJS(),
-			todos => localStorage.setItem('mobx-react-todomvc-todos', todos)
+			todos => localStorage.setItem('mobx-react-todomvc-todos', JSON.stringify({ todos }))
 		);
 	}
 
