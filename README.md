@@ -16,7 +16,7 @@ The example requires node 4.0 or higher
 
 ## Changing the example
 
-If you are new to MobX, take a look at the [five minute, interactive introduction](https://mobxjs.github.io/mobx/getting-started.html) to MobX and React. MobX provides a refreshing way to manage your app state by combining mutable data structures with transparent reactive programming.
+If you are new to MobX, take a look at the [ten minutes, interactive introduction](https://mobxjs.github.io/mobx/getting-started.html) to MobX and React. MobX provides a refreshing way to manage your app state by combining mutable data structures with transparent reactive programming.
 
 The state and actions of this app are defined in two stores; `todoModel` and `viewModel`.
 This is not necessary but it provides a nice separation of concerns between data that effects the domain of the application and data that affects the user interface of the application.
