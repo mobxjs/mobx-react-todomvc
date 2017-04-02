@@ -15,7 +15,7 @@ module.exports = {
   },
   plugins: [
     new webpack.HotModuleReplacementPlugin(),
-    new webpack.NoErrorsPlugin(),
+    new webpack.NoEmitOnErrorsPlugin(),
     new webpack.DefinePlugin({
       'process.env': { NODE_ENV: JSON.stringify(process.env.NODE_ENV) },
       __CLIENT__: JSON.stringify(true),
@@ -23,12 +23,12 @@ module.exports = {
     }),
   ],
   resolve: {
-    extensions: ['', '.js', '.jsx']
+    extensions: ['.js', '.jsx']
   },
   module: {
     loaders: [{
       test: /\.jsx?$/,
-      loaders: ['babel'],
+      loaders: ['babel-loader'],
       exclude: NODE_MODULES_PATH,
     }]
   }

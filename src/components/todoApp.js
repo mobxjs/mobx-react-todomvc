@@ -1,6 +1,6 @@
 import React from 'react';
 import {observer} from 'mobx-react';
-import {Router} from 'director';
+import {Router} from 'director/build/director';
 
 import TodoEntry from './todoEntry';
 import TodoOverview from './todoOverview';
