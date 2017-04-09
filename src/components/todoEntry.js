@@ -1,5 +1,6 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
+import PropTypes from 'prop-types';
 import {observer} from 'mobx-react';
 
 const ENTER_KEY = 13;
@@ -33,5 +34,5 @@ export default class TodoEntry extends React.Component {
 }
 
 TodoEntry.propTypes = {
-	todoStore: React.PropTypes.object.isRequired
+	todoStore: PropTypes.object.isRequired
 };

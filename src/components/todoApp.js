@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import {observer} from 'mobx-react';
 
 import TodoEntry from './todoEntry';
@@ -40,6 +41,6 @@ export default class TodoApp extends React.Component {
 }
 
 TodoApp.propTypes = {
-	viewStore: React.PropTypes.object.isRequired,
-	todoStore: React.PropTypes.object.isRequired
+	viewStore: PropTypes.object.isRequired,
+	todoStore: PropTypes.object.isRequired
 };
