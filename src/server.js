@@ -3,12 +3,12 @@ import bodyParser from 'body-parser';
 import path from 'path';
 import escape from 'jsesc';
 
-import { renderToString } from 'react-dom/server'
-
-import TodoStore from '../src/stores/TodoStore';
-import ViewStore from '../src/stores/ViewStore';
-import TodoApp from '../src/components/todoApp.js';
-import React from 'react';
+// import { renderToString } from 'react-dom/server'
+//
+// import TodoStore from '../src/stores/TodoStore';
+// import ViewStore from '../src/stores/ViewStore';
+// import TodoApp from '../src/components/todoApp.js';
+// import React from 'react';
 
 const app = express();
 app.use('/node_modules', express.static(path.join(__dirname, '../node_modules')))
@@ -56,14 +56,14 @@ let todos = []; // Todos are stored here
 app.use(bodyParser.json());
 
 app.get('/', function(req, res) {
-	const todoStore = TodoStore.fromJS(todos);
-	const viewStore = new ViewStore();
-
-	const initView = renderToString((
-		<TodoApp todoStore={todoStore} viewStore={viewStore} />
-	));
-
-	const page = renderFullPage(initView);
+	// const todoStore = TodoStore.fromJS(todos);
+	// const viewStore = new ViewStore();
+  //
+	// const initView = renderToString((
+	// 	<TodoApp todoStore={todoStore} viewStore={viewStore} />
+	// ));
+  //
+	const page = renderFullPage('');
 
 	res.status(200).send(page);
 });
