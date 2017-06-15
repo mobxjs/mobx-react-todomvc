@@ -4,7 +4,8 @@
   "description": "TodoMVC reference implementation based on React TodoMVC and mobx-react-boilerplate",
   "scripts": {
     "start": "node bin/server.js",
-    "lint": "eslint src"
+    "lint": "eslint src",
+    "build": "NODE_ENVIRONMENT=production webpack -p"
   },
   "repository": {
     "type": "git",
