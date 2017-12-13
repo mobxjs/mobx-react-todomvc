@@ -1,5 +1,4 @@
 import React from 'react';
-import ReactDOM from 'react-dom';
 import PropTypes from 'prop-types';
 import {observer} from 'mobx-react';
 
@@ -9,7 +8,6 @@ const ENTER_KEY = 13;
 export default class TodoEntry extends React.Component {
 	render() {
 		return (<input
-			ref="newField"
 			className="new-todo"
 			placeholder="What needs to be done?"
 			onKeyDown={this.handleNewTodoKeyDown}
@@ -24,11 +22,11 @@ export default class TodoEntry extends React.Component {
 
 		event.preventDefault();
 
-		var val = ReactDOM.findDOMNode(this.refs.newField).value.trim();
+		var val = event.target.value.trim();
 
 		if (val) {
 			this.props.todoStore.addTodo(val);
-			ReactDOM.findDOMNode(this.refs.newField).value = '';
+			event.target.value = '';
 		}
 	};
 }
