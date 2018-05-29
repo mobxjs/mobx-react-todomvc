@@ -29,8 +29,9 @@ const renderFullPage = html => {
 	);
 	return `
 	<!doctype html>
-	<html lang="utf-8">
+	<html lang="en">
 		<head>
+			<meta charset="UTF-8">
 			<link rel="stylesheet" href="/node_modules/todomvc-common/base.css">
 			<link rel="stylesheet" href="/node_modules/todomvc-app-css/index.css">
 			<script>
