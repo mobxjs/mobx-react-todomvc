@@ -27,12 +27,12 @@ export default class TodoModel {
     this.title = title;
   }
 
-  setTag() {
-    this.tags = [];
-  }
-
   addTag(val) {
-    this.tags.push(val);
+    if (this.tags.some(tag => tag === val)) {
+      alert("This tag has already been added");
+    } else {
+      this.store.addTag(val, this.id);
+    }
   }
 
   toJS() {

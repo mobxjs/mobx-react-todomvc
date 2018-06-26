@@ -72,19 +72,24 @@ export default class TodoItem extends React.Component {
     if (event.keyCode !== ENTER_KEY) {
       return;
     }
-
     event.preventDefault();
-
-    var val = ReactDOM.findDOMNode(this.refs.tagField).value.trim();
-
-    if (val) {
-      this.props.todo.addTag(val);
-      ReactDOM.findDOMNode(this.refs.tagField).value = "";
-    }
+    this.submitTag();
   };
 
   handleTagSubmitByButton = () => {
-    console.log("add tag input");
+    event.preventDefault();
+    this.submitTag();
+  };
+
+  submitTag = () => {
+    var val = ReactDOM.findDOMNode(this.refs.tagField)
+      .value.trim()
+      .replace(" ", "");
+    if (val) {
+      this.props.todo.addTag(val);
+      this.props.viewStore.addFilterTag(val);
+      ReactDOM.findDOMNode(this.refs.tagField).value = "";
+    }
   };
 
   handleSubmit = event => {

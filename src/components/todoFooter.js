@@ -1,5 +1,4 @@
 import React from "react";
-import ReactDOM from "react-dom";
 import PropTypes from "prop-types";
 import { observer } from "mobx-react";
 import { pluralize } from "../utils";
@@ -14,23 +13,32 @@ export default class TodoFooter extends React.Component {
     const activeTodoWord = pluralize(todoStore.activeTodoCount, "item");
 
     return (
-      <footer className="footer">
-        <span className="todo-count">
-          <strong>{todoStore.activeTodoCount}</strong> {activeTodoWord} left
-        </span>
-        <ul className="filters">
-          {this.renderFilterLink(ALL_TODOS, "", "All")}
-          {this.renderFilterLink(ACTIVE_TODOS, "active", "Active")}
-          {this.renderFilterLink(COMPLETED_TODOS, "completed", "Completed")}
-        </ul>
-        {todoStore.completedCount === 0 ? null : (
-          <button className="clear-completed" onClick={this.clearCompleted}>
-            Clear completed
-          </button>
-        )}
+      <footer>
+        <div className="footer">
+          <span className="todo-count">
+            <strong>{todoStore.activeTodoCount}</strong> {activeTodoWord} left
+          </span>
+          <ul className="filters">
+            {this.renderFilterLink(ALL_TODOS, "", "All")}
+            {this.renderFilterLink(ACTIVE_TODOS, "active", "Active")}
+            {this.renderFilterLink(COMPLETED_TODOS, "completed", "Completed")}
+          </ul>
+          {todoStore.completedCount === 0 ? null : (
+            <button className="clear-completed" onClick={this.clearCompleted}>
+              Clear completed
+            </button>
+          )}
+        </div>
+        {this.props.viewStore.filterTags.map((tag, i) => (
+          <div key={i} style={filterTags}>
+            {tag}
+          </div>
+        ))}
       </footer>
     );
   }
+
+  getUniqueTags(todos) {}
 
   renderFilterLink(filterName, url, caption) {
     return (
@@ -55,4 +63,13 @@ export default class TodoFooter extends React.Component {
 TodoFooter.propTypes = {
   viewStore: PropTypes.object.isRequired,
   todoStore: PropTypes.object.isRequired
+};
+
+const filterTags = {
+  fontSize: 16,
+  margin: "5px",
+  border: "solid 1px lightgrey",
+  padding: "6px 12px",
+  display: "inline-block",
+  borderRadius: 4
 };
