@@ -10,6 +10,7 @@ export default class TodoOverview extends React.Component {
   render() {
     const { todoStore, viewStore } = this.props;
     if (todoStore.todos.length === 0) return null;
+
     return (
       <section className="main">
         <input
@@ -19,9 +20,15 @@ export default class TodoOverview extends React.Component {
           checked={todoStore.activeTodoCount === 0}
         />
         <ul className="todo-list">
-          {this.getVisibleTodos().map(todo => (
-            <TodoItem key={todo.id} todo={todo} viewStore={viewStore} />
-          ))}
+          {this.getVisibleTodos()
+            .filter(
+              todo =>
+                viewStore.activeFilterTag === "" ||
+                todo.tags.some(tag => tag === viewStore.activeFilterTag)
+            )
+            .map(todo => (
+              <TodoItem key={todo.id} todo={todo} viewStore={viewStore} />
+            ))}
         </ul>
       </section>
     );

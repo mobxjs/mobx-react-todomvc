@@ -14,6 +14,33 @@ export default class TodoFooter extends React.Component {
 
     return (
       <footer>
+        <div style={{ borderTop: "1px solid lightgrey" }}>
+          {this.props.viewStore.filterTags.length > 0 && (
+            <a
+              style={filterTags}
+              onClick={() => this.props.viewStore.updateActiveFilterTag("")}
+            >
+              Clear Tag Filter
+            </a>
+          )}
+          {this.props.viewStore.filterTags.map((tag, i) => (
+            <a
+              key={i}
+              style={
+                this.props.viewStore.activeFilterTag === tag
+                  ? activeFilterTags
+                  : filterTags
+              }
+              onClick={e =>
+                this.props.viewStore.updateActiveFilterTag(
+                  e.currentTarget.innerHTML
+                )
+              }
+            >
+              {tag}
+            </a>
+          ))}
+        </div>
         <div className="footer">
           <span className="todo-count">
             <strong>{todoStore.activeTodoCount}</strong> {activeTodoWord} left
@@ -29,16 +56,9 @@ export default class TodoFooter extends React.Component {
             </button>
           )}
         </div>
-        {this.props.viewStore.filterTags.map((tag, i) => (
-          <div key={i} style={filterTags}>
-            {tag}
-          </div>
-        ))}
       </footer>
     );
   }
-
-  getUniqueTags(todos) {}
 
   renderFilterLink(filterName, url, caption) {
     return (
@@ -69,6 +89,17 @@ const filterTags = {
   fontSize: 16,
   margin: "5px",
   border: "solid 1px lightgrey",
+  padding: "6px 12px",
+  display: "inline-block",
+  borderRadius: 4,
+
+  cursor: "pointer"
+};
+
+const activeFilterTags = {
+  fontSize: 16,
+  margin: "5px",
+  border: "solid 1px green",
   padding: "6px 12px",
   display: "inline-block",
   borderRadius: 4

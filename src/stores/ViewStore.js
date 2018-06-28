@@ -5,12 +5,18 @@ export default class ViewStore {
   @observable todoBeingEdited = null;
   @observable todoFilter = ALL_TODOS;
   @observable filterTags = [];
+  @observable activeFilterTag = "";
 
   addFilterTag(val) {
-    console.log("filter tag", val);
     this.filterTags.push(val);
     this.filterTags = [...new Set(this.filterTags)];
   }
+
+  updateActiveFilterTag(val) {
+    this.activeFilterTag = val;
+    this.todoFilter = val;
+  }
+
   //called in client.js ...todos from intial state are maped.joined together with reduce and checked for duplicates
   static fromJS(array) {
     const viewStore = new ViewStore();
