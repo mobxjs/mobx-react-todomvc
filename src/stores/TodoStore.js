@@ -1,63 +1,77 @@
-import {observable, computed, reaction} from 'mobx';
-import TodoModel from '../models/TodoModel'
-import * as Utils from '../utils';
-
+import { observable, computed, reaction, autorun } from "mobx";
+import TodoModel from "../models/TodoModel";
+import * as Utils from "../utils";
 
 export default class TodoStore {
-	@observable todos = [];
+  @observable todos = [];
 
-	@computed get activeTodoCount() {
-		return this.todos.reduce(
-			(sum, todo) => sum + (todo.completed ? 0 : 1),
-			0
-		)
-	}
+  @computed
+  get activeTodoCount() {
+    return this.todos.reduce((sum, todo) => sum + (todo.completed ? 0 : 1), 0);
+  }
 
-	@computed get completedCount() {
-		return this.todos.length - this.activeTodoCount;
-	}
+  @computed
+  get completedCount() {
+    return this.todos.length - this.activeTodoCount;
+  }
 
-	subscribeServerToStore() {
-		reaction(
-			() => this.toJS(),
-			todos => window.fetch && fetch('/api/todos', {
-				method: 'post',
-				body: JSON.stringify({ todos }),
-				headers: new Headers({ 'Content-Type': 'application/json' })
-			})
-		);
-	}
+  subscribeServerToStore() {
+    reaction(
+      () => this.toJS(),
+      todos =>
+        window.fetch &&
+        fetch("/api/todos", {
+          method: "post",
+          body: JSON.stringify({ todos }),
+          headers: new Headers({ "Content-Type": "application/json" })
+        })
+    );
+  }
 
-	subscribeLocalstorageToStore() {
-		reaction(
-			() => this.toJS(),
-			todos => localStorage.setItem('mobx-react-todomvc-todos', JSON.stringify({ todos }))
-		);
-	}
+  subscribeLocalstorageToStore() {
+    reaction(
+      () => this.toJS(),
+      todos =>
+        localStorage.setItem(
+          "mobx-react-todomvc-todos",
+          JSON.stringify({ todos })
+        )
+    );
+  }
 
-	addTodo (title) {
-		this.todos.push(new TodoModel(this, Utils.uuid(), title, false));
-	}
+  //added tags to todo
+  addTodo(title) {
+    let tags = [];
+    this.todos.push(new TodoModel(this, Utils.uuid(), title, false, tags));
+  }
 
-	toggleAll (checked) {
-		this.todos.forEach(
-			todo => todo.completed = checked
-		);
-	}
+  addTag = (val, id) => {
+    this.todos.forEach(todo => {
+      if (todo.id === id) {
+        this.todos.remove(todo);
+        const tags = [...todo.tags, val];
+        this.todos.push(
+          new TodoModel(this, Utils.uuid(), todo.title, false, tags)
+        );
+      }
+    });
+  };
 
-	clearCompleted () {
-		this.todos = this.todos.filter(
-			todo => !todo.completed
-		);
-	}
+  toggleAll(checked) {
+    this.todos.forEach(todo => (todo.completed = checked));
+  }
 
-	toJS() {
-		return this.todos.map(todo => todo.toJS());
-	}
+  clearCompleted() {
+    this.todos = this.todos.filter(todo => !todo.completed);
+  }
 
-	static fromJS(array) {
-		const todoStore = new TodoStore();
-		todoStore.todos = array.map(item => TodoModel.fromJS(todoStore, item));
-		return todoStore;
-	}
+  toJS() {
+    return this.todos.map(todo => todo.toJS());
+  }
+
+  static fromJS(array) {
+    const todoStore = new TodoStore();
+    todoStore.todos = array.map(item => TodoModel.fromJS(todoStore, item));
+    return todoStore;
+  }
 }
