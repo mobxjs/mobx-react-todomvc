@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import {observer} from 'mobx-react';
+import { observer } from 'mobx-react';
 import { ACTIVE_TODOS, COMPLETED_TODOS } from '../constants';
 
 import TodoItem from './todoItem';
@@ -8,7 +8,7 @@ import TodoItem from './todoItem';
 @observer
 export default class TodoOverview extends React.Component {
 	render() {
-		const {todoStore, viewStore} = this.props;
+		const { todoStore, viewStore } = this.props;
 		if (todoStore.todos.length === 0)
 			return null;
 		return <section className="main">
@@ -19,13 +19,15 @@ export default class TodoOverview extends React.Component {
 				checked={todoStore.activeTodoCount === 0}
 			/>
 			<ul className="todo-list">
-				{this.getVisibleTodos().map(todo =>
-					(<TodoItem
-						key={todo.id}
-						todo={todo}
-						viewStore={viewStore}
-					/>)
-				)}
+				{this.getVisibleTodos()
+					.filter(todo => viewStore.activeFilterTag === "" || todo.tags.some(tag => tag === viewStore.activeFilterTag))
+					.map(todo =>
+						(<TodoItem
+							key={todo.id}
+							todo={todo}
+							viewStore={viewStore}
+						/>)
+					)}
 			</ul>
 		</section>
 	}

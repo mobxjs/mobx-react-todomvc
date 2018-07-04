@@ -1,4 +1,4 @@
-import {observable, computed, reaction} from 'mobx';
+import { observable, computed, reaction } from 'mobx';
 import TodoModel from '../models/TodoModel'
 import * as Utils from '../utils';
 
@@ -35,17 +35,30 @@ export default class TodoStore {
 		);
 	}
 
-	addTodo (title) {
-		this.todos.push(new TodoModel(this, Utils.uuid(), title, false));
+	addTodo(title) {
+		let tags = [];
+		this.todos.push(new TodoModel(this, Utils.uuid(), title, false, tags));
 	}
 
-	toggleAll (checked) {
+	addTag = (val, id) => {
+		this.todos.forEach(todo => {
+			if (todo.id === id) {
+				this.todos.remove(todo);
+				const tags = [...todo.tags, val];
+				this.todos.push(
+					new TodoModel(this, Utils.uuid(), todo.title, false, tags)
+				);
+			}
+		});
+	};
+
+	toggleAll(checked) {
 		this.todos.forEach(
 			todo => todo.completed = checked
 		);
 	}
 
-	clearCompleted () {
+	clearCompleted() {
 		this.todos = this.todos.filter(
 			todo => !todo.completed
 		);
