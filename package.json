@@ -5,7 +5,7 @@
   "scripts": {
     "start": "node bin/server.js",
     "lint": "eslint src",
-    "build": "NODE_ENVIRONMENT=production webpack -p"
+    "build": "cross-env NODE_ENVIRONMENT=production webpack -p"
   },
   "repository": {
     "type": "git",
@@ -35,6 +35,7 @@
     "babel-preset-stage-1": "^6.24.1",
     "babel-register": "^6.24.1",
     "body-parser": "^1.17.2",
+    "cross-env": "^5.2.0",
     "css-loader": "^0.28.4",
     "eslint-plugin-react": "^7.1.0",
     "file-loader": "^0.11.2",
