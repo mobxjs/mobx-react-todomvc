@@ -1,6 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import {observer} from 'mobx-react';
+import {action} from 'mobx';
 import {pluralize} from '../utils';
 import { ALL_TODOS, ACTIVE_TODOS, COMPLETED_TODOS } from '../constants';
 
@@ -45,6 +46,7 @@ export default class TodoFooter extends React.Component {
 		</li>)
 	}
 
+	@action
 	clearCompleted = () => {
 		this.props.todoStore.clearCompleted();
 	};

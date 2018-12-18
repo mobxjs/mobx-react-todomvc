@@ -2,6 +2,7 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import PropTypes from 'prop-types';
 import {observer} from 'mobx-react';
+import {action} from 'mobx';
 
 const ENTER_KEY = 13;
 
@@ -17,6 +18,7 @@ export default class TodoEntry extends React.Component {
 		/>);
 	}
 
+	@action
 	handleNewTodoKeyDown = (event) => {
 		if (event.keyCode !== ENTER_KEY) {
 			return;

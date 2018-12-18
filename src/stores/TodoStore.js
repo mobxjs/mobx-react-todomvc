@@ -1,4 +1,4 @@
-import {observable, computed, reaction} from 'mobx';
+import {observable, computed, reaction, action} from 'mobx';
 import TodoModel from '../models/TodoModel'
 import * as Utils from '../utils';
 
@@ -28,23 +28,19 @@ export default class TodoStore {
 		);
 	}
 
-	subscribeLocalstorageToStore() {
-		reaction(
-			() => this.toJS(),
-			todos => localStorage.setItem('mobx-react-todomvc-todos', JSON.stringify({ todos }))
-		);
-	}
-
+	@action
 	addTodo (title) {
 		this.todos.push(new TodoModel(this, Utils.uuid(), title, false));
 	}
 
+	@action
 	toggleAll (checked) {
 		this.todos.forEach(
 			todo => todo.completed = checked
 		);
 	}
 
+	@action
 	clearCompleted () {
 		this.todos = this.todos.filter(
 			todo => !todo.completed

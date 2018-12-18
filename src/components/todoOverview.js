@@ -14,10 +14,12 @@ export default class TodoOverview extends React.Component {
 		return <section className="main">
 			<input
 				className="toggle-all"
+				id="toggle-all"
 				type="checkbox"
 				onChange={this.toggleAll}
 				checked={todoStore.activeTodoCount === 0}
 			/>
+			<label htmlFor="toggle-all"></label>
 			<ul className="todo-list">
 				{this.getVisibleTodos().map(todo =>
 					(<TodoItem

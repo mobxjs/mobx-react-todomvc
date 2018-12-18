@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import {observer} from 'mobx-react';
-import {observable, expr} from 'mobx';
+import {observable, action, computed} from 'mobx';
 
 const ESCAPE_KEY = 27;
 const ENTER_KEY = 13;
@@ -11,11 +11,11 @@ export default class TodoItem extends React.Component {
 	@observable editText = "";
 
 	render() {
-		const {viewStore, todo} = this.props;
+		const {todo} = this.props;
 		return (
 			<li className={[
 				todo.completed ? "completed": "",
-				expr(() => todo === viewStore.todoBeingEdited ? "editing" : "")
+				this.isBeingEdited ? "editing" : ""
 			].join(" ")}>
 				<div className="view">
 					<input
@@ -41,6 +41,12 @@ export default class TodoItem extends React.Component {
 		);
 	}
 
+	@computed
+	get isBeingEdited() {
+		return this.props.viewStore.todoBeingEdited === this.props.todo
+	}
+
+	@action
 	handleSubmit = (event) => {
 		const val = this.editText.trim();
 		if (val) {
@@ -52,17 +58,20 @@ export default class TodoItem extends React.Component {
 		this.props.viewStore.todoBeingEdited = null;
 	};
 
+	@action
 	handleDestroy = () => {
 		this.props.todo.destroy();
 		this.props.viewStore.todoBeingEdited = null;
 	};
 
+	@action
 	handleEdit = () => {
 		const todo = this.props.todo;
 		this.props.viewStore.todoBeingEdited = todo;
 		this.editText = todo.title;
 	};
 
+	@action
 	handleKeyDown = (event) => {
 		if (event.which === ESCAPE_KEY) {
 			this.editText = this.props.todo.title;
@@ -72,10 +81,12 @@ export default class TodoItem extends React.Component {
 		}
 	};
 
+	@action
 	handleChange = (event) => {
 		this.editText = event.target.value;
 	};
 
+	@action
 	handleToggle = () => {
 		this.props.todo.toggle();
 	};
