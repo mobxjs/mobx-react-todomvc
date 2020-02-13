@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import {observer} from 'mobx-react';
 import {action} from 'mobx';
 import {pluralize} from '../utils';
-import { ALL_TODOS, ACTIVE_TODOS, COMPLETED_TODOS } from '../constants';
+import { ALL_TODOS, ACTIVE_TODOS, COMPLETED_TODOS, IMPORTANT_TODOS } from '../constants';
 
 @observer
 export default class TodoFooter extends React.Component {
@@ -23,6 +23,7 @@ export default class TodoFooter extends React.Component {
 					{this.renderFilterLink(ALL_TODOS, "", "All")}
 					{this.renderFilterLink(ACTIVE_TODOS, "active", "Active")}
 					{this.renderFilterLink(COMPLETED_TODOS, "completed", "Completed")}
+					{this.renderFilterLink(IMPORTANT_TODOS, "important", "Important")}
 				</ul>
 				{ todoStore.completedCount === 0
 					? null

@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import {observer} from 'mobx-react';
-import { ACTIVE_TODOS, COMPLETED_TODOS } from '../constants';
+import { ACTIVE_TODOS, COMPLETED_TODOS, IMPORTANT_TODOS } from '../constants';
 
 import TodoItem from './todoItem';
 
@@ -39,6 +39,8 @@ export default class TodoOverview extends React.Component {
 					return !todo.completed;
 				case COMPLETED_TODOS:
 					return todo.completed;
+				case IMPORTANT_TODOS:
+					return todo.important;
 				default:
 					return true;
 			}
