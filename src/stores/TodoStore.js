@@ -1,6 +1,7 @@
 import {observable, computed, reaction, action} from 'mobx';
 import TodoModel from '../models/TodoModel'
 import * as Utils from '../utils';
+import { IMPORTANT_TODOS, ALL_TODOS } from '../constants';
 
 
 export default class TodoStore {
@@ -30,7 +31,7 @@ export default class TodoStore {
 
 	@action
 	addTodo (title) {
-		this.todos.push(new TodoModel(this, Utils.uuid(), title, false));
+		this.todos.push(new TodoModel(this, Utils.uuid(), title, false, false));
 	}
 
 	@action
