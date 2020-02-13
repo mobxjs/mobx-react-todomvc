@@ -2,7 +2,6 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import {observer} from 'mobx-react';
 import {observable, action, computed} from 'mobx';
-
 const ESCAPE_KEY = 27;
 const ENTER_KEY = 13;
 
@@ -12,6 +11,12 @@ export default class TodoItem extends React.Component {
 
 	render() {
 		const {todo} = this.props;
+
+		const importantStyle = 
+			todo.important ?
+				{ color: "red" }
+			:
+				{ color: "blue" };
 		return (
 			<li className={[
 				todo.completed ? "completed": "",
@@ -27,6 +32,7 @@ export default class TodoItem extends React.Component {
 					<label onDoubleClick={this.handleEdit}>
 						{todo.title}
 					</label>
+					<button style={importantStyle} onClick={this.handleImportantToggle}>!</button>
 					<button className="destroy" onClick={this.handleDestroy} />
 				</div>
 				<input
@@ -90,6 +96,11 @@ export default class TodoItem extends React.Component {
 	handleToggle = () => {
 		this.props.todo.toggle();
 	};
+
+	@action
+	handleImportantToggle = () => {
+		this.props.todo.toggleImportant();
+	}
 }
 
 TodoItem.propTypes = {
