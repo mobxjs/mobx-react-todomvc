@@ -5,16 +5,22 @@ export default class TodoModel {
 	id;
 	@observable title;
 	@observable completed;
+	@observable important;
 
-	constructor(store, id, title, completed) {
+	constructor(store, id, title, completed, important) {
 		this.store = store;
 		this.id = id;
 		this.title = title;
 		this.completed = completed;
+		this.important = important;
 	}
 
 	toggle() {
 		this.completed = !this.completed;
+	}
+
+	toggleImportant() {
+		this.important = !this.important;
 	}
 
 	destroy() {
@@ -29,11 +35,12 @@ export default class TodoModel {
 		return {
 			id: this.id,
 			title: this.title,
-			completed: this.completed
+			completed: this.completed,
+			important: this.important,
 		};
 	}
 
 	static fromJS(store, object) {
-		return new TodoModel(store, object.id, object.title, object.completed);
+		return new TodoModel(store, object.id, object.title, object.completed, object.important);
 	}
 }
