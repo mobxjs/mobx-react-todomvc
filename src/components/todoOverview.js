@@ -13,7 +13,7 @@ export default class TodoOverview extends React.Component {
 			return null;
 		return <section className="main">
 			<input
-				className="toggle-all"
+				className="toggle-all" // this image doen't make sense to me...
 				id="toggle-all"
 				type="checkbox"
 				onChange={this.toggleAll}
