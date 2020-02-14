@@ -50,6 +50,7 @@
   },
   "dependencies": {
     "classnames": "^2.2.5",
+    "css-loader": "^0.28.11",
     "director": "^1.2.8",
     "express": "^4.15.3",
     "jsesc": "^2.5.1",
@@ -59,6 +60,7 @@
     "prop-types": "^15.5.10",
     "react": "^16.6.0",
     "react-dom": "^16.6.0",
+    "style-loader": "^0.18.2",
     "todomvc-app-css": "^2.1.0",
     "todomvc-common": "^1.0.3",
     "url-loader": "^0.5.9",
