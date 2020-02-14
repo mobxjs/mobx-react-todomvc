@@ -20,10 +20,10 @@ export default class TodoFooter extends React.Component {
 					<strong>{todoStore.activeTodoCount}</strong> {activeTodoWord} left
 				</span>
 				<ul className="filters">
-					{this.renderFilterLink(ALL_TODOS, "", "All")}
-					{this.renderFilterLink(ACTIVE_TODOS, "active", "Active")}
-					{this.renderFilterLink(COMPLETED_TODOS, "completed", "Completed")}
-					{this.renderFilterLink(IMPORTANT_TODOS, "important", "Important")}
+					{this.renderFilterLink(ALL_TODOS, "All")}
+					{this.renderFilterLink(ACTIVE_TODOS, "Active")}
+					{this.renderFilterLink(COMPLETED_TODOS, "Completed")}
+					{this.renderFilterLink(IMPORTANT_TODOS, "Important")}
 				</ul>
 				{ todoStore.completedCount === 0
 					? null
@@ -37,12 +37,12 @@ export default class TodoFooter extends React.Component {
 		);
 	}
 
-	renderFilterLink(filterName, url, caption) {
+	renderFilterLink(filterName, caption) {
 		return (<li>
-			<a href={"#/" + url}
-				className={filterName ===  this.props.viewStore.todoFilter ? "selected" : ""}>
+			<button onClick={() => this.props.viewStore.toggleView(filterName)}
+				className={this.props.viewStore.todoFilters.includes(filterName) ? "selected" : ""}>
 				{caption}
-			</a>
+			</button>
 			{' '}
 		</li>)
 	}
