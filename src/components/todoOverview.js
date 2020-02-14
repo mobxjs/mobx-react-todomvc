@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import {observer} from 'mobx-react';
-import { ACTIVE_TODOS, COMPLETED_TODOS, IMPORTANT_TODOS, ALL_TODOS } from '../constants';
+import { ACTIVE_TODOS, COMPLETED_TODOS, ALL_TODOS } from '../constants';
 
 import TodoItem from './todoItem';
 
@@ -47,9 +47,6 @@ export default class TodoOverview extends React.Component {
 						break;
 					case COMPLETED_TODOS:
 						res = todo.completed;
-						break;
-					case IMPORTANT_TODOS:
-						res = todo.important;
 						break;
 					default:
 						res = todo.tags.includes(filter);

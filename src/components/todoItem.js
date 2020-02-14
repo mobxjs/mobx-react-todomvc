@@ -4,6 +4,7 @@ import {observer} from 'mobx-react';
 import {observable, action, computed} from 'mobx';
 const ESCAPE_KEY = 27;
 const ENTER_KEY = 13;
+import { COMPLETED_TODOS } from '../constants';
 
 @observer
 export default class TodoItem extends React.Component {
@@ -12,17 +13,12 @@ export default class TodoItem extends React.Component {
 	render() {
 		const {todo} = this.props;
 
-		const importantStyle = 
-			todo.important ?
-				{ color: "red" }
-			:
-				{ color: "blue" };
+		console.log(todo.tag)
 		return (
 			<li className={[
 				todo.completed ? "completed": "",
 				this.isBeingEdited ? "editing" : ""
-			].join(" ")}
-				onClick={this.handleClick}>
+			].join(" ")}>
 				<div className="view">
 					<input
 						className="toggle"
@@ -33,7 +29,9 @@ export default class TodoItem extends React.Component {
 					<label onDoubleClick={this.handleEdit}>
 						{todo.title}
 					</label>
-					<button style={importantStyle} onClick={this.handleImportantToggle}>!</button>
+					<ul>
+						{todo.tags.map(t => this.renderTag(t))}
+					</ul>
 					<button className="destroy" onClick={this.handleDestroy} />
 				</div>
 				<input
@@ -46,6 +44,15 @@ export default class TodoItem extends React.Component {
 				/>
 			</li>
 		);
+	}
+
+	renderTag(name) {
+		return (<li key={name}>
+			<button onClick={() => this.props.todo.toggleTag(name)}>
+				{name}
+			</button>
+			{' '}
+		</li>)
 	}
 
 	@computed
@@ -95,13 +102,8 @@ export default class TodoItem extends React.Component {
 
 	@action
 	handleToggle = () => {
-		this.props.todo.toggle();
+		this.props.todo.toggleTag(COMPLETED_TODOS);
 	};
-
-	@action
-	handleImportantToggle = () => {
-		this.props.todo.toggleImportant();
-	}
 
 	@action
 	handleClick = event => {

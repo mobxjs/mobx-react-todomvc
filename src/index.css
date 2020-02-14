@@ -249,6 +249,22 @@ body {
 	display: block;
 }
 
+.todo-list li .tag {
+	position: absolute;
+	top: 0;
+	right: 50px;
+	bottom: 0;
+	width: 40px;
+	height: 40px;
+	margin: auto 0;
+	font-size: 12px;
+	margin-bottom: 11px;
+}
+
+.todo-list li:hover .tag {
+	display: block;
+}
+
 .todo-list li .edit {
 	display: none;
 }
