@@ -1,4 +1,4 @@
-export const ALL_TODOS = 'all';
-export const ACTIVE_TODOS = 'active';
-export const COMPLETED_TODOS = 'completed';
-export const IMPORTANT_TODOS = 'important';
+export const ALL_TODOS = 'All';
+export const ACTIVE_TODOS = 'Active';
+export const COMPLETED_TODOS = 'Completed';
+export const IMPORTANT_TODOS = 'Important';
