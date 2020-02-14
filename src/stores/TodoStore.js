@@ -1,7 +1,7 @@
 import {observable, computed, reaction, action} from 'mobx';
 import TodoModel from '../models/TodoModel'
 import * as Utils from '../utils';
-import { IMPORTANT_TODOS, ALL_TODOS } from '../constants';
+import { ALL_TODOS, ACTIVE_TODOS, COMPLETED_TODOS, IMPORTANT_TODOS } from '../constants';
 
 
 export default class TodoStore {
@@ -16,6 +16,17 @@ export default class TodoStore {
 
 	@computed get completedCount() {
 		return this.todos.length - this.activeTodoCount;
+	}
+
+	@computed get rangeOfTags() {
+		let tags = new Set([ALL_TODOS, ACTIVE_TODOS, COMPLETED_TODOS, IMPORTANT_TODOS]);
+		for(let i = 0; i < this.todos.length; i++) {
+			const todo = this.todos[i];
+			for(let j = 0; j < todo.tags; j++) {
+				tags.add(todo.tags[j]);
+			}
+		}
+		return Array.from(tags);
 	}
 
 	subscribeServerToStore() {
