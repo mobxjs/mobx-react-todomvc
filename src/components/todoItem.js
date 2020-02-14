@@ -30,7 +30,7 @@ export default class TodoItem extends React.Component {
 						{todo.title}
 					</label>
 					<ul className="tags">
-						{todo.tags.map(t => this.renderTag(t))}
+						{todo.tags.filter(t => t !==  COMPLETED_TODOS).map(t => this.renderTag(t))}
 					</ul>
 					<button className="new-tag" onClick={this.handleNewTag} />
 					<button className="destroy" onClick={this.handleDestroy} />
