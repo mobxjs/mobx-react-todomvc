@@ -22,7 +22,7 @@ export default class TodoStore {
 		let tags = new Set([ALL_TODOS, ACTIVE_TODOS, COMPLETED_TODOS, IMPORTANT_TODOS]);
 		for(let i = 0; i < this.todos.length; i++) {
 			const todo = this.todos[i];
-			for(let j = 0; j < todo.tags; j++) {
+			for(let j = 0; j < todo.tags.length; j++) {
 				tags.add(todo.tags[j]);
 			}
 		}
@@ -42,7 +42,7 @@ export default class TodoStore {
 
 	@action
 	addTodo (title) {
-		this.todos.push(new TodoModel(this, Utils.uuid(), title, false, false));
+		this.todos.push(new TodoModel(this, Utils.uuid(), title, []));
 	}
 
 	@action

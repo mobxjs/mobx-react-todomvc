@@ -21,7 +21,8 @@ export default class TodoItem extends React.Component {
 			<li className={[
 				todo.completed ? "completed": "",
 				this.isBeingEdited ? "editing" : ""
-			].join(" ")}>
+			].join(" ")}
+				onClick={this.handleClick}>
 				<div className="view">
 					<input
 						className="toggle"
@@ -101,9 +102,25 @@ export default class TodoItem extends React.Component {
 	handleImportantToggle = () => {
 		this.props.todo.toggleImportant();
 	}
+
+	@action
+	handleClick = event => {
+		const buttonNum = event.button;
+
+		// only trigger on right-click
+		//if(buttonNum === 2) {
+			event.preventDefault();
+
+			const tagStr = prompt("enter new tag");
+			if(!this.props.todoStore.rangeOfTags.includes(tagStr)) {
+				this.props.todo.toggleTag(tagStr);
+			}
+		//}
+	}
 }
 
 TodoItem.propTypes = {
 	todo: PropTypes.object.isRequired,
-	viewStore: PropTypes.object.isRequired
+	viewStore: PropTypes.object.isRequired,
+	todoStore: PropTypes.object.isRequired,
 };

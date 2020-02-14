@@ -1,32 +1,33 @@
-import {observable} from 'mobx';
+import {observable, action} from 'mobx';
 
 export default class TodoModel {
 	store;
 	id;
 	@observable title;
-	@observable completed;
-	@observable important;
+	@observable tags = [];
 
-	constructor(store, id, title, completed, important) {
+	constructor(store, id, title, tags) {
 		this.store = store;
 		this.id = id;
 		this.title = title;
-		this.completed = completed;
-		this.important = important;
+		this.tags = tags || this.tags;
 	}
 
-	toggle() {
-		this.completed = !this.completed;
-	}
-
-	toggleImportant() {
-		this.important = !this.important;
+	@action
+	toggleTag(tag) {
+		if(this.tags.includes(tag)) {
+			this.tags = this.tags.filter(t => t !== tag);
+		} else {
+			this.tags.push(tag);
+		}
+		console.log(this.tags)
 	}
 
 	destroy() {
 		this.store.todos.remove(this);
 	}
 
+	@action
 	setTitle(title) {
 		this.title = title;
 	}
@@ -35,12 +36,11 @@ export default class TodoModel {
 		return {
 			id: this.id,
 			title: this.title,
-			completed: this.completed,
-			important: this.important,
+			tags: this.tags,
 		};
 	}
 
 	static fromJS(store, object) {
-		return new TodoModel(store, object.id, object.title, object.completed, object.important);
+		return new TodoModel(store, object.id, object.title, object.tags);
 	}
 }

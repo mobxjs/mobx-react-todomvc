@@ -26,6 +26,7 @@ export default class TodoOverview extends React.Component {
 						key={todo.id}
 						todo={todo}
 						viewStore={viewStore}
+						todoStore={todoStore}
 					/>)
 				)}
 			</ul>
@@ -50,6 +51,8 @@ export default class TodoOverview extends React.Component {
 					case IMPORTANT_TODOS:
 						res = todo.important;
 						break;
+					default:
+						res = todo.tags.includes(filter);
 				}
 				if(res) {
 					return true;
