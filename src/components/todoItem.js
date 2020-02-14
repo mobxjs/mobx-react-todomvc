@@ -109,7 +109,7 @@ export default class TodoItem extends React.Component {
 	@action
 	handleNewTag = () => {
 		const tagStr = prompt("enter new tag");
-		if(!this.props.todoStore.rangeOfTags.includes(tagStr)) {
+		if(!this.props.todo.tags.includes(tagStr)) {
 			this.props.todo.toggleTag(tagStr);
 		}
 	}
