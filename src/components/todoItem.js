@@ -16,14 +16,14 @@ export default class TodoItem extends React.Component {
 		console.log(todo.tag)
 		return (
 			<li className={[
-				todo.completed ? "completed": "",
+				todo.tags.includes(COMPLETED_TODOS) ? "completed": "",
 				this.isBeingEdited ? "editing" : ""
 			].join(" ")}>
 				<div className="view">
 					<input
 						className="toggle"
 						type="checkbox"
-						checked={todo.completed}
+						checked={todo.tags.includes(COMPLETED_TODOS)}
 						onChange={this.handleToggle}
 					/>
 					<label onDoubleClick={this.handleEdit}>

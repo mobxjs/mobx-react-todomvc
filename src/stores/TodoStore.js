@@ -9,7 +9,7 @@ export default class TodoStore {
 
 	@computed get activeTodoCount() {
 		return this.todos.reduce(
-			(sum, todo) => sum + (todo.completed ? 0 : 1),
+			(sum, todo) => sum + (todo.tags.includes(COMPLETED_TODOS) ? 0 : 1),
 			0
 		)
 	}
@@ -48,14 +48,14 @@ export default class TodoStore {
 	@action
 	toggleAll (checked) {
 		this.todos.forEach(
-			todo => todo.completed = checked
+			todo => todo.setCompleted(checked)
 		);
 	}
 
 	@action
 	clearCompleted () {
 		this.todos = this.todos.filter(
-			todo => !todo.completed
+			todo => !todo.tags.includes(COMPLETED_TODOS)
 		);
 	}
 

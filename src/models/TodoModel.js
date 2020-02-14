@@ -1,4 +1,5 @@
 import {observable, action} from 'mobx';
+import { COMPLETED_TODOS } from '../constants';
 
 export default class TodoModel {
 	store;
@@ -21,6 +22,17 @@ export default class TodoModel {
 			this.tags.push(tag);
 		}
 		console.log(this.tags)
+	}
+
+	@action
+	setCompleted(isCompleted) {
+		if(isCompleted) {
+			if(!this.tags.includes(COMPLETED_TODOS)) {
+				this.tags.push(COMPLETED_TODOS);
+			}
+		} else {
+			this.tags = this.tags.filter(t => t !== COMPLETED_TODOS);
+		}
 	}
 
 	destroy() {

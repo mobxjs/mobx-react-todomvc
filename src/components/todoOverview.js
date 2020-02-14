@@ -43,10 +43,10 @@ export default class TodoOverview extends React.Component {
 						res = true;
 						break;
 					case ACTIVE_TODOS:
-						res = !todo.completed;
+						res = !todo.tags.includes(COMPLETED_TODOS);
 						break;
 					case COMPLETED_TODOS:
-						res = todo.completed;
+						res = todo.tags.includes(COMPLETED_TODOS);
 						break;
 					default:
 						res = todo.tags.includes(filter);
