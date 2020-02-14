@@ -339,7 +339,7 @@ body {
 }
 
 .filters li button.selected {
-	border-color: rgba(175, 47, 47, 0.2);
+	border: 2px solid rgba(175, 47, 47, 0.2);
 }
 
 .tags {
