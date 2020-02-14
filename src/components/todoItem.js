@@ -29,9 +29,10 @@ export default class TodoItem extends React.Component {
 					<label onDoubleClick={this.handleEdit}>
 						{todo.title}
 					</label>
-					<ul>
+					<ul className="tags">
 						{todo.tags.map(t => this.renderTag(t))}
 					</ul>
+					<button className="new-tag" onClick={this.handleNewTag} />
 					<button className="destroy" onClick={this.handleDestroy} />
 				</div>
 				<input
@@ -106,18 +107,11 @@ export default class TodoItem extends React.Component {
 	};
 
 	@action
-	handleClick = event => {
-		const buttonNum = event.button;
-
-		// only trigger on right-click
-		//if(buttonNum === 2) {
-			event.preventDefault();
-
-			const tagStr = prompt("enter new tag");
-			if(!this.props.todoStore.rangeOfTags.includes(tagStr)) {
-				this.props.todo.toggleTag(tagStr);
-			}
-		//}
+	handleNewTag = () => {
+		const tagStr = prompt("enter new tag");
+		if(!this.props.todoStore.rangeOfTags.includes(tagStr)) {
+			this.props.todo.toggleTag(tagStr);
+		}
 	}
 }
 

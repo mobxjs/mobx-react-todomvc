@@ -249,7 +249,8 @@ body {
 	display: block;
 }
 
-.todo-list li .tag {
+.todo-list li .new-tag {
+	display: none;
 	position: absolute;
 	top: 0;
 	right: 50px;
@@ -257,11 +258,17 @@ body {
 	width: 40px;
 	height: 40px;
 	margin: auto 0;
-	font-size: 12px;
+	font-size: 30px;
+	color: #cc9a9a;
 	margin-bottom: 11px;
+	transition: color 0.2s ease-out;
 }
 
-.todo-list li:hover .tag {
+.todo-list li .new-tag:after {
+	content: '+';
+}
+
+.todo-list li:hover .new-tag {
 	display: block;
 }
 
@@ -333,6 +340,34 @@ body {
 
 .filters li button.selected {
 	border-color: rgba(175, 47, 47, 0.2);
+}
+
+.tags {
+	margin: 0;
+	padding: 0;
+	list-style: none;
+	position: relative;
+	right: 0;
+	left: 0;
+}
+
+.tags li {
+	display: inline;
+}
+
+.tags li button {
+	color: inherit;
+	margin: 3px;
+	padding: 3px 7px;
+	text-decoration: none;
+	border: 1px solid;
+    border-radius: 3px;
+    border-color: rgba(184, 115, 115, 0.1);
+}
+
+.tags li button:hover {
+    border-color: rgba(204, 15, 15, 0.1);
+	border: 3px solid;
 }
 
 .clear-completed,
