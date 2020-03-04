@@ -5,6 +5,9 @@ import TodoApp from './components/todoApp.js';
 import React from 'react';
 import ReactDOM from 'react-dom';
 
+import './base.css';
+import './index.css';
+
 const initialState = window.initialState && JSON.parse(window.initialState) || {};
 
 var todoStore = TodoStore.fromJS(initialState.todos || []);

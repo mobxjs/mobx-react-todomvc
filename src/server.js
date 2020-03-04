@@ -32,8 +32,6 @@ const renderFullPage = html => {
 	<html lang="en">
 		<head>
 			<meta charset="UTF-8">
-			<link rel="stylesheet" href="/node_modules/todomvc-common/base.css">
-			<link rel="stylesheet" href="/node_modules/todomvc-app-css/index.css">
 			<script>
 				window.initialState = ${initialStateJSON}
 			</script>
@@ -73,6 +71,7 @@ app.post('/api/todos', function(req, res) {
 	todos = req.body.todos;
 	if (Array.isArray(todos)) {
 		console.log(`Updated todos (${todos.length})`);
+		console.log(JSON.stringify(todos));
 		res.status(201).send(JSON.stringify({ success: true }));
 	} else {
 		res.status(200).send(JSON.stringify({ success: false, error: "expected `todos` to be array" }));

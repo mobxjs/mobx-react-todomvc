@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import {observer} from 'mobx-react';
-import { ACTIVE_TODOS, COMPLETED_TODOS } from '../constants';
+import { ACTIVE_TODOS, COMPLETED_TODOS, ALL_TODOS } from '../constants';
 
 import TodoItem from './todoItem';
 
@@ -13,7 +13,7 @@ export default class TodoOverview extends React.Component {
 			return null;
 		return <section className="main">
 			<input
-				className="toggle-all"
+				className="toggle-all" // this image doen't make sense to me...
 				id="toggle-all"
 				type="checkbox"
 				onChange={this.toggleAll}
@@ -26,6 +26,7 @@ export default class TodoOverview extends React.Component {
 						key={todo.id}
 						todo={todo}
 						viewStore={viewStore}
+						todoStore={todoStore}
 					/>)
 				)}
 			</ul>
@@ -34,14 +35,27 @@ export default class TodoOverview extends React.Component {
 
 	getVisibleTodos() {
 		return this.props.todoStore.todos.filter(todo => {
-			switch (this.props.viewStore.todoFilter) {
-				case ACTIVE_TODOS:
-					return !todo.completed;
-				case COMPLETED_TODOS:
-					return todo.completed;
-				default:
+			for(let i = 0; i < this.props.viewStore.todoFilters.length; i++) {
+				const filter = this.props.viewStore.todoFilters[i];
+				let res = null;
+				switch (filter) {
+					case ALL_TODOS:
+						res = true;
+						break;
+					case ACTIVE_TODOS:
+						res = !todo.tags.includes(COMPLETED_TODOS);
+						break;
+					case COMPLETED_TODOS:
+						res = todo.tags.includes(COMPLETED_TODOS);
+						break;
+					default:
+						res = todo.tags.includes(filter);
+				}
+				if(res) {
 					return true;
+				}
 			}
+			return false;
 		});
 	}
 

@@ -2,9 +2,9 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import {observer} from 'mobx-react';
 import {observable, action, computed} from 'mobx';
-
 const ESCAPE_KEY = 27;
 const ENTER_KEY = 13;
+import { COMPLETED_TODOS } from '../constants';
 
 @observer
 export default class TodoItem extends React.Component {
@@ -12,21 +12,27 @@ export default class TodoItem extends React.Component {
 
 	render() {
 		const {todo} = this.props;
+
+		console.log(todo.tag)
 		return (
 			<li className={[
-				todo.completed ? "completed": "",
+				todo.tags.includes(COMPLETED_TODOS) ? "completed": "",
 				this.isBeingEdited ? "editing" : ""
 			].join(" ")}>
 				<div className="view">
 					<input
 						className="toggle"
 						type="checkbox"
-						checked={todo.completed}
+						checked={todo.tags.includes(COMPLETED_TODOS)}
 						onChange={this.handleToggle}
 					/>
 					<label onDoubleClick={this.handleEdit}>
 						{todo.title}
 					</label>
+					<ul className="tags">
+						{todo.tags.filter(t => t !==  COMPLETED_TODOS).map(t => this.renderTag(t))}
+					</ul>
+					<button className="new-tag" onClick={this.handleNewTag} />
 					<button className="destroy" onClick={this.handleDestroy} />
 				</div>
 				<input
@@ -39,6 +45,15 @@ export default class TodoItem extends React.Component {
 				/>
 			</li>
 		);
+	}
+
+	renderTag(name) {
+		return (<li key={name}>
+			<button onClick={() => this.props.todo.toggleTag(name)}>
+				{name}
+			</button>
+			{' '}
+		</li>)
 	}
 
 	@computed
@@ -88,11 +103,20 @@ export default class TodoItem extends React.Component {
 
 	@action
 	handleToggle = () => {
-		this.props.todo.toggle();
+		this.props.todo.toggleTag(COMPLETED_TODOS);
 	};
+
+	@action
+	handleNewTag = () => {
+		const tagStr = prompt("enter new tag");
+		if(!this.props.todo.tags.includes(tagStr)) {
+			this.props.todo.toggleTag(tagStr);
+		}
+	}
 }
 
 TodoItem.propTypes = {
 	todo: PropTypes.object.isRequired,
-	viewStore: PropTypes.object.isRequired
+	viewStore: PropTypes.object.isRequired,
+	todoStore: PropTypes.object.isRequired,
 };

@@ -3,7 +3,6 @@ import PropTypes from 'prop-types';
 import {observer} from 'mobx-react';
 import {action} from 'mobx';
 import {pluralize} from '../utils';
-import { ALL_TODOS, ACTIVE_TODOS, COMPLETED_TODOS } from '../constants';
 
 @observer
 export default class TodoFooter extends React.Component {
@@ -14,15 +13,15 @@ export default class TodoFooter extends React.Component {
 
 		const activeTodoWord = pluralize(todoStore.activeTodoCount, 'item');
 
+		const filters = this.props.todoStore.rangeOfTags;
+
 		return (
 			<footer className="footer">
 				<span className="todo-count">
 					<strong>{todoStore.activeTodoCount}</strong> {activeTodoWord} left
 				</span>
 				<ul className="filters">
-					{this.renderFilterLink(ALL_TODOS, "", "All")}
-					{this.renderFilterLink(ACTIVE_TODOS, "active", "Active")}
-					{this.renderFilterLink(COMPLETED_TODOS, "completed", "Completed")}
+					{filters.map(t => this.renderFilterLink(t))}
 				</ul>
 				{ todoStore.completedCount === 0
 					? null
@@ -36,12 +35,12 @@ export default class TodoFooter extends React.Component {
 		);
 	}
 
-	renderFilterLink(filterName, url, caption) {
+	renderFilterLink(filterName) {
 		return (<li>
-			<a href={"#/" + url}
-				className={filterName ===  this.props.viewStore.todoFilter ? "selected" : ""}>
-				{caption}
-			</a>
+			<button onClick={() => this.props.viewStore.toggleView(filterName)}
+				className={this.props.viewStore.todoFilters.includes(filterName) ? "selected" : ""}>
+				{filterName}
+			</button>
 			{' '}
 		</li>)
 	}
