@@ -18,7 +18,7 @@ const webpackDevMiddleware = require('webpack-dev-middleware');
 const webpackHotMiddleware = require('webpack-hot-middleware');
 const config = require('../webpack.config');
 const compiler = webpack(config);
-app.use(webpackDevMiddleware(compiler, { noInfo: true, publicPath: config.output.publicPath }));
+app.use(webpackDevMiddleware(compiler, { publicPath: config.output.publicPath }));
 app.use(webpackHotMiddleware(compiler));
 
 const renderFullPage = html => {
