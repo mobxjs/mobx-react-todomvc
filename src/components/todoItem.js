@@ -1,14 +1,25 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import {observer} from 'mobx-react';
-import {observable, action, computed} from 'mobx';
+import {makeObservable, action, computed} from 'mobx';
 
 const ESCAPE_KEY = 27;
 const ENTER_KEY = 13;
 
-@observer
-export default class TodoItem extends React.Component {
-  @observable editText = "";
+class TodoItem extends React.Component {
+
+  constructor(props) {
+    super(props);
+    makeObservable(this, {
+      isBeingEdited: computed,
+      handleSubmit: action.bound,
+      handleDestroy: action.bound,
+      handleEdit: action.bound,
+      handleKeyDown: action.bound,
+      handleChange: action.bound,
+      handleToggle: action.bound
+    });
+  }
 
   render() {
     const {todo} = this.props;
@@ -41,12 +52,10 @@ export default class TodoItem extends React.Component {
     );
   }
 
-  @computed
   get isBeingEdited() {
     return this.props.viewStore.todoBeingEdited === this.props.todo
   }
 
-  @action
   handleSubmit = (event) => {
     const val = this.editText.trim();
     if (val) {
@@ -58,20 +67,17 @@ export default class TodoItem extends React.Component {
     this.props.viewStore.todoBeingEdited = null;
   };
 
-  @action
   handleDestroy = () => {
     this.props.todo.destroy();
     this.props.viewStore.todoBeingEdited = null;
   };
 
-  @action
   handleEdit = () => {
     const todo = this.props.todo;
     this.props.viewStore.todoBeingEdited = todo;
     this.editText = todo.title;
   };
 
-  @action
   handleKeyDown = (event) => {
     if (event.which === ESCAPE_KEY) {
       this.editText = this.props.todo.title;
@@ -81,12 +87,10 @@ export default class TodoItem extends React.Component {
     }
   };
 
-  @action
   handleChange = (event) => {
     this.editText = event.target.value;
   };
 
-  @action
   handleToggle = () => {
     this.props.todo.toggle();
   };
@@ -96,3 +100,5 @@ TodoItem.propTypes = {
   todo: PropTypes.object.isRequired,
   viewStore: PropTypes.object.isRequired
 };
+
+export default observer(TodoItem);

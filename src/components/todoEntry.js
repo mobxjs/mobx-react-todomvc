@@ -2,12 +2,19 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import PropTypes from 'prop-types';
 import {observer} from 'mobx-react';
-import {action} from 'mobx';
+import {makeObservable, action} from 'mobx';
 
 const ENTER_KEY = 13;
 
-@observer
-export default class TodoEntry extends React.Component {
+class TodoEntry extends React.Component {
+
+  constructor(props) {
+    super(props);
+    makeObservable(this, {
+      handleNewTodoKeyDown: action.bound
+    });
+  }
+
   render() {
     return (<input
 	      ref="newField"
@@ -18,7 +25,6 @@ export default class TodoEntry extends React.Component {
 	    />);
   }
 
-  @action
   handleNewTodoKeyDown = (event) => {
     if (event.keyCode !== ENTER_KEY) {
       return;
@@ -33,8 +39,10 @@ export default class TodoEntry extends React.Component {
       ReactDOM.findDOMNode(this.refs.newField).value = '';
     }
   };
-}
+};
 
 TodoEntry.propTypes = {
   todoStore: PropTypes.object.isRequired
 };
+
+export default observer(TodoEntry);
