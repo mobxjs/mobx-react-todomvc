@@ -1,39 +1,44 @@
-import {observable} from 'mobx';
+import {makeObservable, observable} from 'mobx';
 
 export default class TodoModel {
-	store;
-	id;
-	@observable title;
-	@observable completed;
+  store;
+  id;
+  title;
+  completed;
 
-	constructor(store, id, title, completed) {
-		this.store = store;
-		this.id = id;
-		this.title = title;
-		this.completed = completed;
-	}
+  constructor(store, id, title, completed) {
+    this.store = store;
+    this.id = id;
+    this.title = title;
+    this.completed = completed;
 
-	toggle() {
-		this.completed = !this.completed;
-	}
+    makeObservable(this, {
+      title: observable,
+      completed: observable
+    });
+  }
 
-	destroy() {
-		this.store.todos.remove(this);
-	}
+  toggle() {
+    this.completed = !this.completed;
+  }
 
-	setTitle(title) {
-		this.title = title;
-	}
+  destroy() {
+    this.store.todos.remove(this);
+  }
 
-	toJS() {
-		return {
-			id: this.id,
-			title: this.title,
-			completed: this.completed
-		};
-	}
+  setTitle(title) {
+    this.title = title;
+  }
 
-	static fromJS(store, object) {
-		return new TodoModel(store, object.id, object.title, object.completed);
-	}
+  toJS() {
+    return {
+      id: this.id,
+      title: this.title,
+      completed: this.completed
+    };
+  }
+
+  static fromJS(store, object) {
+    return new TodoModel(store, object.id, object.title, object.completed);
+  }
 }

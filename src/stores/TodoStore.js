@@ -1,59 +1,68 @@
-import {observable, computed, reaction, action} from 'mobx';
+import {makeObservable, observable, computed, reaction, action} from 'mobx';
 import TodoModel from '../models/TodoModel'
 import * as Utils from '../utils';
 
 
 export default class TodoStore {
-	@observable todos = [];
 
-	@computed get activeTodoCount() {
-		return this.todos.reduce(
-			(sum, todo) => sum + (todo.completed ? 0 : 1),
-			0
-		)
-	}
+  constructor() {
+    makeObservable(this, {
+      todos: observable,
+      activeTodoCount: computed,
+      completedCount: computed,
+      addTodo: action.bound,
+      toggleAll: action.bound,
+      clearCompleted: action.bound
+    });
+  }
 
-	@computed get completedCount() {
-		return this.todos.length - this.activeTodoCount;
-	}
+  todos = [];
 
-	subscribeServerToStore() {
-		reaction(
-			() => this.toJS(),
-			todos => window.fetch && fetch('/api/todos', {
-				method: 'post',
-				body: JSON.stringify({ todos }),
-				headers: new Headers({ 'Content-Type': 'application/json' })
-			})
-		);
-	}
+  get activeTodoCount() {
+    return this.todos.reduce(
+      (sum, todo) => sum + (todo.completed ? 0 : 1),
+      0
+    )
+  }
 
-	@action
-	addTodo (title) {
-		this.todos.push(new TodoModel(this, Utils.uuid(), title, false));
-	}
+  get completedCount() {
+    return this.todos.length - this.activeTodoCount;
+  }
 
-	@action
-	toggleAll (checked) {
-		this.todos.forEach(
-			todo => todo.completed = checked
-		);
-	}
+  subscribeServerToStore() {
+    reaction(
+      () => this.toJS(),
+      todos => window.fetch && fetch('/api/todos', {
+	method: 'post',
+	body: JSON.stringify({ todos }),
+	headers: new Headers({ 'Content-Type': 'application/json' })
+      })
+    );
+  }
 
-	@action
-	clearCompleted () {
-		this.todos = this.todos.filter(
-			todo => !todo.completed
-		);
-	}
+  addTodo (title) {
+    this.todos.push(new TodoModel(this, Utils.uuid(), title, false));
+  }
 
-	toJS() {
-		return this.todos.map(todo => todo.toJS());
-	}
+  toggleAll (checked) {
+    this.todos.forEach(
+      todo => todo.completed = checked
+    );
+  }
 
-	static fromJS(array) {
-		const todoStore = new TodoStore();
-		todoStore.todos = array.map(item => TodoModel.fromJS(todoStore, item));
-		return todoStore;
-	}
+  clearCompleted () {
+    this.todos = this.todos.filter(
+      todo => !todo.completed
+    );
+  }
+
+  toJS() {
+    return this.todos.map(todo => todo.toJS());
+  }
+
+  static fromJS(array) {
+    const todoStore = new TodoStore();
+    todoStore.todos = array.map(item => TodoModel.fromJS(todoStore, item));
+    return todoStore;
+  }
 }

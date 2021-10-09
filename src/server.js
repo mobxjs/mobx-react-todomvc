@@ -18,16 +18,16 @@ const webpackDevMiddleware = require('webpack-dev-middleware');
 const webpackHotMiddleware = require('webpack-hot-middleware');
 const config = require('../webpack.config');
 const compiler = webpack(config);
-app.use(webpackDevMiddleware(compiler, { noInfo: true, publicPath: config.output.publicPath }));
+app.use(webpackDevMiddleware(compiler, { publicPath: config.output.publicPath }));
 app.use(webpackHotMiddleware(compiler));
 
 const renderFullPage = html => {
-	const initialState = { todos };
-	const initialStateJSON = escape( // So safe!
-		JSON.stringify(initialState),
-		{ wrap: true, isScriptContext: true, json: true }
-	);
-	return `
+  const initialState = { todos };
+  const initialStateJSON = escape( // So safe!
+    JSON.stringify(initialState),
+    { wrap: true, isScriptContext: true, json: true }
+  );
+  return `
 	<!doctype html>
 	<html lang="en">
 		<head>
@@ -57,42 +57,42 @@ let todos = []; // Todos are stored here
 app.use(bodyParser.json());
 
 app.get('/', function(req, res) {
-	// const todoStore = TodoStore.fromJS(todos);
-	// const viewStore = new ViewStore();
+  // const todoStore = TodoStore.fromJS(todos);
+  // const viewStore = new ViewStore();
   //
-	// const initView = renderToString((
-	// 	<TodoApp todoStore={todoStore} viewStore={viewStore} />
-	// ));
+  // const initView = renderToString((
+  // 	<TodoApp todoStore={todoStore} viewStore={viewStore} />
+  // ));
   //
-	const page = renderFullPage('');
+  const page = renderFullPage('');
 
-	res.status(200).send(page);
+  res.status(200).send(page);
 });
 
 app.post('/api/todos', function(req, res) {
-	todos = req.body.todos;
-	if (Array.isArray(todos)) {
-		console.log(`Updated todos (${todos.length})`);
-		res.status(201).send(JSON.stringify({ success: true }));
-	} else {
-		res.status(200).send(JSON.stringify({ success: false, error: "expected `todos` to be array" }));
-	}
+  todos = req.body.todos;
+  if (Array.isArray(todos)) {
+    console.log(`Updated todos (${todos.length})`);
+    res.status(201).send(JSON.stringify({ success: true }));
+  } else {
+    res.status(200).send(JSON.stringify({ success: false, error: "expected `todos` to be array" }));
+  }
 });
 
 app.get('*', function(req, res) {
-	res.status(404).send('Server.js > 404 - Page Not Found');
+  res.status(404).send('Server.js > 404 - Page Not Found');
 });
 
 app.use((err, req, res, next) => {
-	console.error("Error on request %s %s", req.method, req.url);
-	console.error(err.stack);
-	res.status(500).send("Server error");
+  console.error("Error on request %s %s", req.method, req.url);
+  console.error(err.stack);
+  res.status(500).send("Server error");
 });
 
 process.on('uncaughtException', evt => {
-	console.log('uncaughtException: ', evt);
+  console.log('uncaughtException: ', evt);
 });
 
 app.listen(3000, function(){
-	console.log('Listening on port 3000');
+  console.log('Listening on port 3000');
 });
