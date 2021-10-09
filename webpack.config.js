@@ -4,6 +4,7 @@ var NODE_MODULES_PATH = path.resolve(__dirname, 'node_modules');
 
 module.exports = {
   devtool: 'eval-source-map',
+  mode: 'development',
   entry: [
     'webpack-hot-middleware/client?reload=true',
     './src/client'
@@ -17,7 +18,7 @@ module.exports = {
     new webpack.HotModuleReplacementPlugin(),
     new webpack.NoEmitOnErrorsPlugin(),
     new webpack.DefinePlugin({
-      'process.env': { NODE_ENV: JSON.stringify(process.env.NODE_ENV) },
+      'process.env': { NODE_ENV: JSON.stringify(process.env.NODE_ENV || 'development') },
       __CLIENT__: JSON.stringify(true),
       __SERVER__: JSON.stringify(false),
     }),
@@ -33,5 +34,8 @@ module.exports = {
         loader: 'babel-loader'
       }
     }]
+  },
+  stats: {
+    errorDetails: true
   }
 };
